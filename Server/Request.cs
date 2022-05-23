@@ -53,7 +53,22 @@ namespace Server
                     LastName = userModel.LastName,
                     Password = userModel.Password
                 };
-                users.Add(user);
+
+                switch (userModel.Type)
+                {
+                    case UserModel.UserType.Customer:
+                        users.Add(user as Customer);
+                        break;
+                    case UserModel.UserType.Employee:
+                        users.Add(user as Employee);
+                        break;
+                    case UserModel.UserType.Admin:
+                        users.Add(user as Admin);
+                        break;
+                    default:
+                        break;
+                }
+                
                 _context.SaveChanges();
                 return true;
             }
