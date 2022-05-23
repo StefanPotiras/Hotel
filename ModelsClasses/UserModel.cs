@@ -8,7 +8,7 @@ namespace ModelsClasses
 {  
    public  class UserModel
     {
-        public enum UserType { Customer, Employee, Admin }
+        public enum UserType { None , Customer, Employee, Admin }
         public int Id { get; set; }
         public string Username { get; set; }
         public string FirstName { get; set; }

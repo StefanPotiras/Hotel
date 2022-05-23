@@ -19,7 +19,7 @@ namespace Server
                .UseSqlServer(connectionString)
                .Options;
             //@"Server=localhost\SQLEXPRESS;Database=Hotel;Trusted_Connection=True;"
-            
+
             _context = new HotelContext(options);
             _context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
@@ -31,6 +31,23 @@ namespace Server
             _context.Dispose();
         }
 
+        
+        public UserModel.UserType Login(string username, string password)
+        {
+            var users = _context.Users;
+
+            foreach (User user in users)
+            {
+                if (user.Username == username && password == user.Password)
+                {
+                    if (user is Admin) return UserModel.UserType.Admin;
+                    if (user is Employee) return UserModel.UserType.Employee;
+                    if (user is Customer) return UserModel.UserType.Customer;
+                }
+            }
+            return UserModel.UserType.None;
+        }
+
         public bool Register(UserModel userModel)
         {
             var users = _context.Users;
@@ -38,13 +55,13 @@ namespace Server
             bool exists = false;
             foreach (User user in users)
             {
-                if(user.Username == userModel.Username)
+                if (user.Username == userModel.Username)
                 {
                     exists = true;
                     break;
                 }
             }
-            if(!exists)
+            if (!exists)
             {
                 User user = new User
                 {
@@ -68,7 +85,7 @@ namespace Server
                     default:
                         break;
                 }
-                
+
                 _context.SaveChanges();
                 return true;
             }
