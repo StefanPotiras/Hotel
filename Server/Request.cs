@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,7 +32,7 @@ namespace Server
             _context.Dispose();
         }
 
-        
+
         public UserModel.UserType Login(string username, string password)
         {
             var users = _context.Users;
@@ -74,13 +75,31 @@ namespace Server
                 switch (userModel.Type)
                 {
                     case UserModel.UserType.Customer:
-                        users.Add(user as Customer);
+                        users.Add(new Customer
+                        {
+                            Username = userModel.Username,
+                            FirstName = userModel.FirstName,
+                            LastName = userModel.LastName,
+                            Password = userModel.Password
+                        });
                         break;
                     case UserModel.UserType.Employee:
-                        users.Add(user as Employee);
+                        users.Add(new Employee
+                        {
+                            Username = userModel.Username,
+                            FirstName = userModel.FirstName,
+                            LastName = userModel.LastName,
+                            Password = userModel.Password
+                        });
                         break;
                     case UserModel.UserType.Admin:
-                        users.Add(user as Admin);
+                        users.Add(new Admin
+                        {
+                            Username = userModel.Username,
+                            FirstName = userModel.FirstName,
+                            LastName = userModel.LastName,
+                            Password = userModel.Password
+                        });
                         break;
                     default:
                         break;
@@ -91,6 +110,13 @@ namespace Server
             }
 
             return false;
+        }
+
+        public ObservableCollection<RoomTypeModel> GetAllRooms()
+        {
+            ObservableCollection<RoomTypeModel> roomTypes = new ObservableCollection<RoomTypeModel>();
+
+            var roomTypesDb = _context.RoomTypes.Include(roomType => roomType.Prices).
         }
     }
 }
