@@ -73,7 +73,7 @@ namespace Hotel.ViewModels
         public void NextFunction(object param)
         {
             UnauthorizedClientModel roomsWondow = new UnauthorizedClientModel();
-            UnauthorizedClient loginVM = new UnauthorizedClient(false);
+            UnauthorizedClient loginVM = new UnauthorizedClient();
             roomsWondow.DataContext = loginVM;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = roomsWondow;

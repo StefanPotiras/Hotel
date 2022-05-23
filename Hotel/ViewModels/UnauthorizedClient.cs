@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Hotel.Helps;
 using Hotel.Models;
 using Hotel.ViewModel;
 using Hotel.Views;
+using ModelsClasses;
 
 namespace Hotel.ViewModels
 {
@@ -16,19 +18,33 @@ namespace Hotel.ViewModels
         ObservableCollection<Hotels> hotelsCurrent = new ObservableCollection<Hotels>();
         public UnauthorizedClient()
         { }
-        public UnauthorizedClient(bool isEmployee)
+        public UnauthorizedClient(UserModel.UserType useType)
         {
-            Hotels temp1 = new Hotels();
+            if (useType == UserModel.UserType.Admin)
+            {
+                visibility = true;
+                visibilityAdmin = true;
+            }
+            else if (useType == UserModel.UserType.Employee)
+            {
+                visibility = true;
+                visibilityAdmin = false;
+            }
+            else if(useType == UserModel.UserType.Customer)
+            {
+
+            }
+            Hotels temp1 = new Hotels(visibilityAdmin);
             temp1.tipCamera = "Camera cu 2 paturi";
             temp1.pret = "100$";
             temp1.numarPersoane = "2";
-
+            temp1.nrRoom = "3";
             ObservableCollection<string> images = new ObservableCollection<string>();
             images.Add("C:\\Users\\StefanPotiras\\Desktop\\ImageTest\\img1.jpg");
 
             temp1.images = images;
             //temp1.imagesRoom.images.Add("C:\\Users\\StefanPotiras\\Desktop\\ImageTest\\img1.jpg");
-            Hotels temp2 = new Hotels();
+            Hotels temp2 = new Hotels(visibilityAdmin);
             temp2.tipCamera = "Camera cu 5 paturi";
             temp2.pret = "150$";
             temp2.numarPersoane = "10";
@@ -38,7 +54,7 @@ namespace Hotel.ViewModels
             temp2.images = images2;
             hotelsCurrent.Add(temp1);
             hotelsCurrent.Add(temp2);
-            visibility = isEmployee;
+
         }
 
         public ObservableCollection<Hotels> HotelsCurrent
@@ -76,7 +92,7 @@ namespace Hotel.ViewModels
             }
         }
 
-        private bool visibility;
+        private bool visibility = false;
         public bool Visibility
         {
             get
@@ -87,6 +103,19 @@ namespace Hotel.ViewModels
             {
                 visibility = value;
                 NotifyPropertyChanged("Visibility");
+            }
+        }
+        private bool visibilityAdmin = false;
+        public bool VisibilityAdmin
+        {
+            get
+            {
+                return visibilityAdmin;
+            }
+            set
+            {
+                visibilityAdmin = value;
+                NotifyPropertyChanged("visibilityAdmin");
             }
         }
         private Hotels selectedRoom;
@@ -149,6 +178,71 @@ namespace Hotel.ViewModels
         {
             MainWindow firstPage = new MainWindow();
             FirstPageViewModel firstPageModel = new FirstPageViewModel();
+            firstPage.DataContext = firstPageModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = firstPage;
+            firstPage.Show();
+
+        }
+        private ICommand DeleteRoomCommand;
+        public ICommand DeleteRoom
+        {
+            get
+            {
+                if (DeleteRoomCommand == null)
+                {
+                    DeleteRoomCommand = new RelayCommands(DeleteRoomFc);
+                }
+                return DeleteRoomCommand;
+            }
+        }
+        public void DeleteRoomFc(object buttonClicked)
+        {
+            string indexRoom= (buttonClicked as Button).Content.ToString();
+            MainWindow firstPage = new MainWindow();
+            FirstPageViewModel firstPageModel = new FirstPageViewModel();
+            firstPage.DataContext = firstPageModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = firstPage;
+            firstPage.Show();
+        }
+        private ICommand AddNewRommCommand;
+        public ICommand AddRoom
+        {
+            get
+            {
+                if (AddNewRommCommand == null)
+                {
+                    AddNewRommCommand = new RelayCommands(AddNewRoomFc);
+                }
+                return AddNewRommCommand;
+            }
+        }
+        public void AddNewRoomFc(object buttonClicked)
+        {
+            AddNewRoomView firstPage = new AddNewRoomView();
+            AddNewRoomViewModel firstPageModel = new AddNewRoomViewModel();
+            firstPage.DataContext = firstPageModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = firstPage;
+            firstPage.Show();
+        }
+        private ICommand AddServicesComand;
+        public ICommand AddServices
+        {
+            get
+            {
+                if (AddServicesComand == null)
+                {
+                    AddServicesComand = new RelayCommands(AddServicesFc);
+                }
+                return AddServicesComand;
+            }
+        }
+        public void AddServicesFc(object buttonClicked)
+        {
+            AddServicesView firstPage = new AddServicesView();
+            AddNewServicesViewModel firstPageModel = new AddNewServicesViewModel();
             firstPage.DataContext = firstPageModel;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = firstPage;

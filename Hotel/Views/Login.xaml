@@ -10,6 +10,9 @@
     <Window.DataContext>
         <ctx:LoginViewModel/>
     </Window.DataContext>
+    <Window.Resources >
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -21,6 +24,7 @@
         <TextBox BorderThickness="2" Width="400" Height="50" Text="{Binding UsernameTextBox, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         <Label Margin="200 0 0 0" FontSize="30" Grid.Row="1">Password</Label>
         <TextBox BorderThickness="2" Width="400" Height="50" Grid.Row="1" Text="{Binding PasswordTextBox, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-        <Button Grid.Row="2" Width="400" Height="50" FontSize="30" Command="{Binding Login}"  >Login</Button>
+        <Button Grid.Row="2" Width="400" Height="50" FontSize="30" Command="{Binding Login}"  Margin="0 0 0 40" >Login</Button>
+        <Label FontSize="30" Content="Ceva nu este ok!" Foreground="red" Grid.Row="2" Margin="300 100 0 0" Visibility="{Binding Visibility, Converter={StaticResource BoolToVisibilityConverter}}"/>
     </Grid>
 </Window>

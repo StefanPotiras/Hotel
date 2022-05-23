@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Hotel.Helps;
+using Hotel.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Hotel.Models
 {
@@ -16,16 +20,65 @@ namespace Hotel.Models
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-
+        public Hotels(bool vis)
+        {
+            VisibilityAdmin = vis;
+        }
+        private ICommand DeleteRoomCommand;
+        public ICommand DeleteRoom
+        {
+            get
+            {
+                if (DeleteRoomCommand == null)
+                {
+                    DeleteRoomCommand = new RelayCommands(DeleteRoomFc);
+                }
+                return DeleteRoomCommand;
+            }
+        }
+        public void DeleteRoomFc(object buttonClicked)
+        {
+            string indexRoom = buttonClicked.ToString();
+            MainWindow firstPage = new MainWindow();
+            FirstPageViewModel firstPageModel = new FirstPageViewModel();
+            firstPage.DataContext = firstPageModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = firstPage;
+            firstPage.Show();
+        }
         public string image;
         public string tipCamera;
         public string pret;
         public string numarPersoane;
         public string numberOfRooms;
+        public string nrRoom;
+        public bool vizibilityAdmin;
 
         public ObservableCollection<string> images { get; set; }
-
-
+        public string NrRoom
+        {
+            get
+            {
+                return nrRoom;
+            }
+            set
+            {
+                nrRoom = value;
+                NotifyPropertyChanged("nrRoom");
+            }
+        }
+        public bool VisibilityAdmin
+        {
+            get
+            {
+                return vizibilityAdmin;
+            }
+            set
+            {
+                vizibilityAdmin = value;
+                NotifyPropertyChanged("vizibilityAdmin");
+            }
+        }
 
         public ObservableCollection<string> ImagesRoom
         {

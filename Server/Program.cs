@@ -70,8 +70,8 @@ namespace Server
 
             using (var db = new HotelContext(options))
             {
-                db.Database.EnsureDeleted();
-                db.Database.EnsureCreated();
+                //db.Database.EnsureDeleted();
+                //db.Database.EnsureCreated();
 
 
                 //var param = new SqlParameter("@Id", 1);

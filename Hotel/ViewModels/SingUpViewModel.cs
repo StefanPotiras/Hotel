@@ -1,4 +1,6 @@
 ﻿using Hotel.Helps;
+using ModelsClasses;
+using Server;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -132,6 +134,21 @@ namespace Hotel.ViewModels
             }
             else
             {
+                UserModel.UserType userType = new UserModel.UserType();
+                if (selectedFunction == "Admin")
+                {
+                    userType = UserModel.UserType.Admin;
+                }
+                else if (selectedFunction == "Employee")
+                {
+                    userType = UserModel.UserType.Employee;
+                }
+                else if (selectedFunction == "Customer")
+                {
+                    userType = UserModel.UserType.Customer;
+                }
+                using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
+                register.Register(new UserModel { FirstName = firstNameTextBox, LastName = secondNameTextBox, Password = passwordTextBox, Username = usernameTextBox, Type = userType });
                 MainWindow firstPageWindow = new MainWindow();
                 FirstPageViewModel firstV = new FirstPageViewModel();
                 firstPageWindow.DataContext = firstV;

@@ -4,6 +4,8 @@ using System.Text;
 using System.Windows.Input;
 using Hotel.Helps;
 using Hotel.Models;
+using ModelsClasses;
+using Server;
 
 namespace Hotel.ViewModels
 {
@@ -70,30 +72,39 @@ namespace Hotel.ViewModels
                 return LoginCommand;
             }
         }
-
+        private bool visibility = false;
+        public bool Visibility
+        {
+            get
+            {
+                return visibility;
+            }
+            set
+            {
+                visibility = value;
+                NotifyPropertyChanged("Visibility");
+            }
+        }
 
         public void LoginFunction(object param)
         {
             if (usernameTextBox != null && passwordTextBox != null)
             {
-                string result = "angajat";
-                if (result == "angajat")
-                {
-                    UnauthorizedClientModel firstPage = new UnauthorizedClientModel();
-                    UnauthorizedClient firstPageModel = new UnauthorizedClient(true);
+                using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
+                UserModel.UserType userType= register.Login(usernameTextBox,passwordTextBox);
+                if (userType!=UserModel.UserType.None)
+                { UnauthorizedClientModel firstPage = new UnauthorizedClientModel();
+                    UnauthorizedClient firstPageModel = new UnauthorizedClient(userType);
                     firstPage.DataContext = firstPageModel;
                     App.Current.MainWindow.Close();
                     App.Current.MainWindow = firstPage;
                     firstPage.Show();
                 }
-                else if (result == "admin")
+                else
                 {
-
+                    visibility = true;
                 }
-                else if (result == "client")
-                {
-
-                }
+                
             }
 
         }

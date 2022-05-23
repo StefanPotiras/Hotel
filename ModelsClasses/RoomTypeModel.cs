@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ModelsClasses
 {
-    class RoomTypeModel
+    public class RoomTypeModel
     {
         public int Id { get; set; }
         public decimal Price { get; set; }

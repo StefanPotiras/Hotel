@@ -22,8 +22,8 @@ namespace Server
             //@"Server=localhost\SQLEXPRESS;Database=Hotel;Trusted_Connection=True;"
 
             _context = new HotelContext(options);
-            _context.Database.EnsureDeleted();
-            _context.Database.EnsureCreated();
+            //_context.Database.EnsureDeleted();
+            //_context.Database.EnsureCreated();
 
         }
 
@@ -112,11 +112,11 @@ namespace Server
             return false;
         }
 
-        public ObservableCollection<RoomTypeModel> GetAllRooms()
-        {
-            ObservableCollection<RoomTypeModel> roomTypes = new ObservableCollection<RoomTypeModel>();
+        //public ObservableCollection<RoomTypeModel> GetAllRooms()
+        //{
+        //    ObservableCollection<RoomTypeModel> roomTypes = new ObservableCollection<RoomTypeModel>();
 
-            var roomTypesDb = _context.RoomTypes.Include(roomType => roomType.Prices).
-        }
+        //    var roomTypesDb = _context.RoomTypes.Include(roomType => roomType.Prices).
+        //}
     }
 }
