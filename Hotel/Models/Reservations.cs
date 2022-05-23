@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Hotel.Views;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
 namespace Hotel.Models
 {
- 
+
     public class Reservations : INotifyPropertyChanged
     {
         public Reservations() { }
@@ -22,7 +23,8 @@ namespace Hotel.Models
         public string dateEnd;
         public int roomNumber;
         public string cameraType;
-        public status reservationStatus;
+        public EnumClass reservationStatus;
+
 
         public string CameraType
         {
@@ -84,7 +86,7 @@ namespace Hotel.Models
                 NotifyPropertyChanged("RoomNumber");
             }
         }
-        public status ReservationsStatus
+        public EnumClass ReservationsStatus
         {
             get
             {
@@ -96,9 +98,6 @@ namespace Hotel.Models
                 NotifyPropertyChanged("EeservationStatus");
             }
         }
-        public enum status
-        {
-            platit, neplatit, anulat,
-        }
+
     }
 }

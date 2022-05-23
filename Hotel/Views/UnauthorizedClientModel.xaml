@@ -19,7 +19,7 @@
             <RowDefinition Height="80"></RowDefinition>
             <RowDefinition Height="3*" ></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            
+
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="40 0 0 0 ">
             <StackPanel>
@@ -33,9 +33,10 @@
             <Button Width="150" Height="30" Margin="20 0 0 0">Search</Button>
             <Button Width="100" Height="30" Margin="20 0 0 0">Delete Filter</Button>
         </StackPanel>
-       
+
         <Label  Grid.Row="0" FontSize="40" FontWeight="Bold" Margin="40 0 0 0">Welcome Stanger</Label>
-        <ListBox Grid.Row="2" x:Name="listBox"  Margin="40,0,40,0"  AllowDrop="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding HotelsCurrent}">
+        <Button Width="100" Height="30" Margin="900 0 0 0" Command="{Binding Back}" FontSize="20">Back</Button>
+        <ListBox Grid.Row="2" x:Name="listBox"  Margin="40,0,40,0"  AllowDrop="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding HotelsCurrent}" SelectedItem="{Binding SelectedRoom}">
             <ListBox.ItemTemplate >
                 <DataTemplate>
                     <Grid>
@@ -44,7 +45,7 @@
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal" Grid.Column="0" >
-                            <Image Margin="3" Source="{Binding Image}"/>
+                            <Image Margin="3" Source="{Binding ImagesRoom[0]}"/>
                             <TextBlock Margin="3" Text="{Binding TipCamera}" FontSize="30"/>
 
                         </StackPanel>
@@ -59,16 +60,16 @@
                                 <TextBlock  Margin="3" Text="{Binding NumarPersoane}" FontSize="30"></TextBlock>
                             </StackPanel>
                             <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Grid.Row="1"  Margin="200 0 0 0">
-                            <TextBlock  Text="Pret:" FontSize="30"></TextBlock>
-                            <TextBlock     Text="{Binding Pret}" FontSize="30"></TextBlock>
+                                <TextBlock  Text="Pret/noapte:" FontSize="30"></TextBlock>
+                                <TextBlock     Text="{Binding Pret}" FontSize="30"></TextBlock>
                             </StackPanel>
                         </Grid>
                     </Grid>
-                   
-                    
+
+
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Grid.Row="3" Width="400" Height="50" FontSize="25" Visibility="{Binding Visibility, Converter={StaticResource BoolToVisibilityConverter}}">See reservations</Button>
+        <Button Grid.Row="3" Width="400" Height="50" FontSize="25" Visibility="{Binding Visibility, Converter={StaticResource BoolToVisibilityConverter}}" Command="{Binding ReservationsTabel}">See reservations</Button>
     </Grid>
 </Window>

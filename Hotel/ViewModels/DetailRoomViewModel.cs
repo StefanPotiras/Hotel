@@ -30,35 +30,35 @@ namespace Hotel.ViewModel
                 NotifyPropertyChanged("ImageSource");
             }
         }
-        public void NextMethod(object param)
-        {
-            int index = images.images.IndexOf(ImageSource);
-            if (index < images.images.Count - 1)
-            {
-                ImageSource = images.images[++index];
-            }
-        }
+        //public void NextMethod(object param)
+        //{
+        //    int index = images.images.IndexOf(ImageSource);
+        //    if (index < images.images.Count - 1)
+        //    {
+        //        ImageSource = images.images[++index];
+        //    }
+        //}
 
-        private ICommand prevCommand;
-        public ICommand PrevCommand
-        {
-            get
-            {
-                if (prevCommand == null)
-                {
-                    prevCommand = new RelayCommands(PrevMethod);
-                }
-                return prevCommand;
-            }
-        }
+        //private ICommand prevCommand;
+        //public ICommand PrevCommand
+        //{
+        //    get
+        //    {
+        //        if (prevCommand == null)
+        //        {
+        //            prevCommand = new RelayCommands(PrevMethod);
+        //        }
+        //        return prevCommand;
+        //    }
+        //}
 
-        public void PrevMethod(object param)
-        {
-            int index = images.images.IndexOf(ImageSource);
-            if (index > 0)
-            {
-                ImageSource = images.images[--index];
-            }
-        }
+        //public void PrevMethod(object param)
+        //{
+        //    int index = images.images.IndexOf(ImageSource);
+        //    if (index > 0)
+        //    {
+        //        ImageSource = images.images[--index];
+        //    }
+        //}
     }
 }

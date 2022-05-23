@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Server.Entities;
-
+using ModelsClasses;
 namespace Server
 {
     class Program
-    {
+    { 
         static IEnumerable<User> CreateData()
         {
             var users = new List<User>
@@ -63,7 +63,7 @@ namespace Server
         static void Main(string[] args)
         {
             var options = new DbContextOptionsBuilder<HotelContext>()
-                .UseSqlServer(@"Server=DESKTOP-6GD6S01\SQLEXPRESS;Database=Hotel;Trusted_Connection=True;")
+                .UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=Hotel;Trusted_Connection=True;")
                 .Options;
 
             using (var db = new HotelContext(options))

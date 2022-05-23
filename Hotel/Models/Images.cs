@@ -6,10 +6,12 @@ using System.Windows.Media.Imaging;
 
 namespace Hotel.Models
 {
-    class Images
+    public class Images
     {
-        public ObservableCollection<BitmapImage> images { get; set; }
-        public ObservableCollection<int>imagesBinary { get; set; }
+        public Images() { }
+        public ObservableCollection<string> images { get; set; }
+
+        public ObservableCollection<int> imagesBinary { get; set; }
 
     }
 }

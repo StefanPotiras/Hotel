@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 
@@ -15,13 +16,29 @@ namespace Hotel.Models
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-      
+
         public string image;
         public string tipCamera;
         public string pret;
         public string numarPersoane;
         public string numberOfRooms;
 
+        public ObservableCollection<string> images { get; set; }
+
+
+
+        public ObservableCollection<string> ImagesRoom
+        {
+            get
+            {
+                return images;
+            }
+            set
+            {
+                images = value;
+                NotifyPropertyChanged("tipCamera");
+            }
+        }
         public string TipCamera
         {
             get

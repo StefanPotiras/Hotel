@@ -6,7 +6,7 @@ using Hotel.Helps;
 using Hotel.Models;
 namespace Hotel.ViewModels
 {
-    class FirstPageViewModel:NotifyViewModel
+    class FirstPageViewModel : NotifyViewModel
     {
         public bool CanExecuteCommandSignIn { get; set; } = false;
 
@@ -67,12 +67,12 @@ namespace Hotel.ViewModels
         }
         public void NextFunction(object param)
         {
-            UnauthorizedClientModel loginWindow = new UnauthorizedClientModel();
-            UnauthorizedClient loginVM = new UnauthorizedClient(true);
-            loginWindow.DataContext = loginVM;
+            UnauthorizedClientModel roomsWondow = new UnauthorizedClientModel();
+            UnauthorizedClient loginVM = new UnauthorizedClient(false);
+            roomsWondow.DataContext = loginVM;
             App.Current.MainWindow.Close();
-            App.Current.MainWindow = loginWindow;
-            loginWindow.Show();
+            App.Current.MainWindow = roomsWondow;
+            roomsWondow.Show();
         }
     }
 }

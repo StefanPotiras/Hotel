@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Hotel.Views
 {
-    public enum  EnumClass
+    public enum EnumClass
     {
         platit, neplatit, anulat
     }

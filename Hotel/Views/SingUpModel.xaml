@@ -6,27 +6,43 @@
         xmlns:local="clr-namespace:Hotel.Models"
          xmlns:ctx="clr-namespace:Hotel.ViewModels"
         mc:Ignorable="d"
-        Title="SingUpModel" Height="450" Width="800">
-    
+        Title="SingUpModel" Height="700" Width="800">
+
+    <Window.DataContext>
+        <ctx:SingUpViewModel/>
+    </Window.DataContext>
+    <Window.Resources >
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
+        <Button Width="100" Height="30" Margin="0 -40 650 0" Command="{Binding Back}">Back</Button>
         <Label Margin="190 0 0 0" FontSize="30">Username</Label>
-        <TextBox BorderThickness="2" Width="400" Height="50" Margin="0 40 0 0"></TextBox>
+        <TextBox FontSize="30" BorderThickness="2" Width="400" Height="50" Margin="0 40 0 0" Text="{Binding UsernameTextBox, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         <Label Margin="190 0 0 0" FontSize="30" Grid.Row="1">Password</Label>
-        <TextBox BorderThickness="2" Width="400" Height="50" Grid.Row="1"  Margin="0 40 0 0"></TextBox>
-        
-             <ComboBox Width="400" Height="50" Grid.Row="2" FontSize="30">
-                <ComboBoxItem>Admin</ComboBoxItem>
-                <ComboBoxItem IsSelected="True">Employee</ComboBoxItem>
-                <ComboBoxItem>Client</ComboBoxItem>
-            </ComboBox>
-      
-        
-        <Button Grid.Row="3" Width="400" Height="50" FontSize="30" >Login</Button>
+        <TextBox FontSize="30" BorderThickness="2" Width="400" Height="50" Grid.Row="1"  Margin="0 40 0 0" Text="{Binding PasswordTextBox, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+        <Label Margin="190 0 0 0" FontSize="30" Grid.Row="2">FirstName</Label>
+        <TextBox FontSize="30" BorderThickness="2" Width="400" Height="50" Grid.Row="2"  Margin="0 40 0 0" Text="{Binding FirstNameTextBox, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <Label Margin="190 0 0 0" FontSize="30" Grid.Row="3">SecondName</Label>
+        <TextBox FontSize="30" BorderThickness="2" Width="400" Height="50" Grid.Row="3"  Margin="0 40 0 0" Text="{Binding SecondNameTextBox, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <Label Margin="190 0 0 0" FontSize="30" Grid.Row="4">Function</Label>
+        <ComboBox Width="400" Height="50" Grid.Row="4" FontSize="30"  Margin="0 40 0 0" Text="{Binding SelectedFunction}">
+            <ComboBoxItem>Admin</ComboBoxItem>
+            <ComboBoxItem IsSelected="True">Employee</ComboBoxItem>
+            <ComboBoxItem>Client</ComboBoxItem>
+        </ComboBox>
+
+
+        <Button Grid.Row="5" Width="400" Height="50" FontSize="30" Command="{Binding Register}" >Register</Button>
+        <Label  Grid.Row="6" FontSize="40" Foreground="red" Margin="230 0 0 0" Visibility="{Binding Visibility, Converter={StaticResource BoolToVisibilityConverter}}">Ceva nu este bine!</Label>
     </Grid>
 </Window>
