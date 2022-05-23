@@ -22,7 +22,7 @@
                 
             </StackPanel>
             <StackPanel Margin="30 30 30 30">
-                <Label FontSize="20">Features:</Label>
+                <Label FontSize="20" Content="Features:"></Label>
                 <Label FontSize="20">Price:</Label>
                 <Label FontSize="20">Number Of Rooms avalabile:</Label>
                 <Label FontSize="20">Descriere:</Label>

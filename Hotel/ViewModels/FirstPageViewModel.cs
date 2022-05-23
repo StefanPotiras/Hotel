@@ -8,6 +8,11 @@ namespace Hotel.ViewModels
 {
     class FirstPageViewModel : NotifyViewModel
     {
+       public FirstPageViewModel()
+        {
+             
+        }
+      
         public bool CanExecuteCommandSignIn { get; set; } = false;
 
         private ICommand LoginCommand;
@@ -73,6 +78,36 @@ namespace Hotel.ViewModels
             App.Current.MainWindow.Close();
             App.Current.MainWindow = roomsWondow;
             roomsWondow.Show();
+        }
+        private ICommand StaiAsaC;
+        public ICommand StaiAsa
+        {
+            get
+            {
+                if (StaiAsaC == null)
+                {
+                    StaiAsaC = new RelayCommands(test123);
+                }
+                return StaiAsaC;
+            }
+        }
+       async public void test123(object param)
+        {
+            RestApi = await Test.f();
+        }
+        public string restApi;
+        public string RestApi
+        {
+            get
+            {
+                return restApi;
+            }
+            set
+            {
+                restApi = value;
+                NotifyPropertyChanged("restApi");
+
+            }
         }
     }
 }

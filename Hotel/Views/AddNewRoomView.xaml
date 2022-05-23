@@ -1,0 +1,48 @@
+﻿<Window x:Class="Hotel.Views.AddNewRoomView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Hotel.Views"
+        mc:Ignorable="d"
+        Title="AddNewRoomView" Height="900" Width="800">
+   
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Button Width="100" Height="30" Margin="0 -40 650 0" Command="{Binding Back}">Back</Button>
+        <Label Margin="190 0 0 0" FontSize="30" Content="Room number"></Label>
+        <TextBox FontSize="30" BorderThickness="2" Width="400" Height="50" Margin="0 40 0 0" Text="{Binding UsernameTextBox, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <Label Margin="190 0 0 0" FontSize="30" Grid.Row="1" Content="Price"></Label>
+        <TextBox FontSize="30" BorderThickness="2" Width="400" Height="50" Grid.Row="1"  Margin="0 40 0 0" Text="{Binding PasswordTextBox, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+        <Label Margin="190 0 0 0" FontSize="30" Grid.Row="2" Content="Description"></Label>
+        <TextBox FontSize="30" BorderThickness="2" Width="400" Height="50" Grid.Row="2"  Margin="0 40 0 0" Text="{Binding FirstNameTextBox, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <Label Margin="190 0 0 0" FontSize="30" Grid.Row="3" Content="Capacity"></Label>
+        <TextBox FontSize="30" BorderThickness="2" Width="400" Height="50" Grid.Row="3"  Margin="0 40 0 0" Text="{Binding SecondNameTextBox, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <Label Margin="190 0 0 0" FontSize="30" Grid.Row="4" Content="Room Type"></Label>
+        <ComboBox Width="400" Height="50" Grid.Row="4" FontSize="30"  Margin="0 40 0 0" Text="{Binding SelectedFunction}">
+            <ComboBoxItem>KingSize</ComboBoxItem>
+            <ComboBoxItem IsSelected="True">SingleRoom</ComboBoxItem>
+            <ComboBoxItem>DoubleRoom</ComboBoxItem>
+            <ComboBoxItem>Quad Room</ComboBoxItem>
+            <ComboBoxItem>Studio Room</ComboBoxItem>
+        </ComboBox>
+        <Label Margin="190 0 0 0" FontSize="30" Grid.Row="5" Content="Room Features"></Label>
+        <ComboBox Width="400" Height="50" Grid.Row="5" FontSize="30"  Margin="0 40 0 0" Text="{Binding SelectedFunction}"/>
+        <ComboBoxItem>KingSize</ComboBoxItem>
+        <ComboBoxItem IsSelected="True">SingleRoom</ComboBoxItem>
+        <ComboBoxItem>DoubleRoom</ComboBoxItem>
+        <ComboBoxItem>Quad Room</ComboBoxItem>
+        <ComboBoxItem>Studio Room</ComboBoxItem>
+
+    </Grid>
+</Window>

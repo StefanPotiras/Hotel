@@ -16,8 +16,8 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Label FontSize="35" FontWeight="Bold">Gucci Hotel</Label>
-        <Button Height="45" Width="400"  Command="{Binding Logare}" Margin="0 80 0 0" FontSize='30'>Logare</Button>
+        <Label FontSize="35" FontWeight="Bold" Content="{Binding RestApi}"></Label>
+        <Button Height="45" Width="400"  Command="{Binding StaiAsa}" Margin="0 80 0 0" FontSize='30'>Logare</Button>
         <Button Height="45" Grid.Row="1" Width="400"  Command="{Binding Next}"  FontSize='30'>Search</Button>
         <Button Height="45" Grid.Row="2"  Width="400"  Margin="0 0 0 80"  FontSize='30'  Command="{Binding Inregistrare}">Inregistrare</Button>
     </Grid>
