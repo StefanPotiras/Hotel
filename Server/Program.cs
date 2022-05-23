@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Microsoft.EntityFrameworkCore;
 using Server.Entities;
-using ModelsClasses;
+
 namespace Server
 {
     class Program
@@ -61,7 +62,7 @@ namespace Server
         }
 
         static void Main(string[] args)
-        {
+        { 
             var options = new DbContextOptionsBuilder<HotelContext>()
                 .UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=Hotel;Trusted_Connection=True;")
                 .Options;

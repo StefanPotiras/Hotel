@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ModelsClasses\ModelsClasses.csproj" />
+    <ProjectReference Include="..\Server\Server.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace ModelsClasses
 {
-    class Room
+    public class FeatureModel
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        
     }
 }

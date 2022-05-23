@@ -38,7 +38,7 @@
         <ComboBox Width="400" Height="50" Grid.Row="4" FontSize="30"  Margin="0 40 0 0" Text="{Binding SelectedFunction}">
             <ComboBoxItem>Admin</ComboBoxItem>
             <ComboBoxItem IsSelected="True">Employee</ComboBoxItem>
-            <ComboBoxItem>Client</ComboBoxItem>
+            <ComboBoxItem>Customer</ComboBoxItem>
         </ComboBox>
 
 

@@ -14,9 +14,7 @@ using System.Windows.Shapes;
 
 namespace Hotel.Views
 {
-    /// <summary>
-    /// Interaction logic for ReservationsView.xaml
-    /// </summary>
+   
     public partial class ReservationsView : Window
     {
         public ReservationsView()

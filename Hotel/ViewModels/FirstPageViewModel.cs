@@ -92,7 +92,7 @@ namespace Hotel.ViewModels
             }
         }
        async public void test123(object param)
-        {
+        { 
             RestApi = await Test.f();
         }
         public string restApi;

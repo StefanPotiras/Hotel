@@ -1,0 +1,12 @@
+﻿Login
+Register
+Get All Room
+Delete Room by id
+Add Room
+Get Rooms StartDate-EndDate
+Add Reserv
+Change status reserv by id
+Get all Reserv
+Reserv{ Username,Price,StartDate,EndDate,Status,RoomsNumber,RoomsType,Extra}
+Add Reserv
+Add extra
