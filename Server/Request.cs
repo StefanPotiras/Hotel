@@ -121,11 +121,11 @@ namespace Server
                 ObservableCollection<FeatureModel> featureModels = new ObservableCollection<FeatureModel>();
                 ObservableCollection<ImageModel> imageModels = new ObservableCollection<ImageModel>();
 
-                foreach (Feature featureDb in roomTypeDb.Features)
+                foreach (Feature featureDb in roomTypeDb.Features.Where(f => !f.Deleted))
                 {
                     featureModels.Add(new FeatureModel { Id = featureDb.Id, Name = featureDb.Name });
                 }
-                foreach (Image imageDb in roomTypeDb.Images)
+                foreach (Image imageDb in roomTypeDb.Images.Where(img => !img.Deleted))
                 {
                     imageModels.Add(new ImageModel { Id = imageDb.Id, Data = imageDb.Data });
                 }
@@ -155,6 +155,8 @@ namespace Server
 
         private int NrOfAvailableRooms(int RoomTypeId, DateTime StartDate, DateTime EndDate)
         {
+            if (_context.RoomTypes.Find(RoomTypeId).Deleted) return 0;
+
             int UnavailableRooms = 0;
             int TotalRooms = _context.Rooms.Where(r => r.RoomType.Id == RoomTypeId).Count();
 
@@ -242,6 +244,55 @@ namespace Server
             _context.Add(new ExtraService { Name = servicesModel.Name, Price = servicesModel.Price });
             _context.SaveChanges();
         }
+
+        //public ICollection<ReservationModel> GetAllReservations()
+        //{
+        //    ICollection<ReservationModel> reservationModels = new List<ReservationModel>();
+
+
+
+        //    foreach (Reservation reservation in _context.Reservations
+        //        .Include(r => r.Rooms)
+        //        .ThenInclude(room => room.RoomType)
+        //        .Include(r => r.ExtraServices))
+        //    {
+        //        decimal price = 0;
+
+                
+
+        //        foreach (Room room in reservation.Rooms)
+        //        {
+        //            RoomPrice currentPrice = room.RoomType.Prices
+        //            .Where(rp => rp.StartDate.CompareTo(now) < 0 && rp.EndTime.CompareTo(now) > 0)
+        //            .FirstOrDefault();
+        //            price += ro
+        //        }
+
+        //        reservationModels.Add(new ReservationModel
+        //        {
+        //            StartDate = reservation.StartDate,
+        //            EndDate = reservation.EndDate,
+        //            State = reservation.State,
+        //            UserId = reservation.Id,
+        //            Username = _context.Customers.Find(reservation.Id).Username,
+        //            NumberOfRooms = reservation.Rooms.Count(),
+        //            Services = Convertor.EnumToObsCol(
+        //                reservation.ExtraServices.Select(serv => new ServicesModel
+        //                {
+        //                    Id = serv.Id,
+        //                    Name = serv.Name,
+        //                    Price = serv.Price
+        //                })),
+        //            Price = reservation.Rooms.
+        //        });
+        //    }
+        //    return reservationModels;
+        //}
+
+        //public ICollection<ReservationModel> GetReservationsForCustomer(int customerId)
+        //{
+
+        //}
 
         public void AddReservation(ReservationModel reservationModel)
         {
