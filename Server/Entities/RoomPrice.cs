@@ -12,6 +12,7 @@ namespace Server.Entities
         public int Id { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndTime { get; set; }
+        public decimal Price { get; set; }
 
         public RoomType RoomType { get; set; }
     }
