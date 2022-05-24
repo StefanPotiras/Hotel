@@ -15,7 +15,7 @@ namespace Server.Entities
         public int Id { get; set; }
 
         [Column(TypeName = "datetime2")]
-        public DateTime BeginDate { get; set; }
+        public DateTime StartDate { get; set; }
 
         [Column(TypeName = "datetime2")]
         public DateTime EndDate { get; set; }

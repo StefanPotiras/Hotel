@@ -153,10 +153,26 @@ namespace Server
         }
 
 
-        private int NrOfAvailableRooms(int RoomTypeId)
+        private int NrOfAvailableRooms(int RoomTypeId , DateTime StartDate, DateTime EndDate)
         {
-            return _context.Rooms.Where(room => room.RoomType.Id == RoomTypeId
-            && room.Reservation.EndDate < DateTime.Now && room.Reservation.BeginDate < DateTime.Now).Count();
+            int UnavailableRooms = 0;
+            int TotalRooms = _context.Rooms.Where(r=>r.RoomType.Id == RoomTypeId).Count();
+
+            foreach(Reservation reservation in _context.Reservations)
+            {
+                foreach(Room room in reservation.Rooms)
+                {
+                    if(room.RoomType.Id == RoomTypeId)
+                    {
+                        if(reservation.StartDate <EndDate || reservation.EndDate > StartDate)
+                        {
+                            UnavailableRooms++;
+                        }
+                    }
+                }
+            }
+
+            return TotalRooms - UnavailableRooms;
         }
 
 
@@ -187,7 +203,7 @@ namespace Server
 
         public void AddRoomType(RoomTypeModel roomTypeModel)
         {
-           var images = roomTypeModel.Images.Select(modelImage => new Image { Data = modelImage.Data });
+            var images = roomTypeModel.Images.Select(modelImage => new Image { Data = modelImage.Data });
 
             ICollection<Image> imgCol = new List<Image>();
             foreach (Image image in images)
@@ -202,8 +218,8 @@ namespace Server
                 BasePrice = roomTypeModel.Price,
                 Capacity = roomTypeModel.Capacity,
                 RoomTitle = roomTypeModel.RoomTitle,
-                Images = imgCol,
-                Features = roomTypeModel.Features.Select(featureModel => new Feature { Name = featureModel.Name }) as ICollection<Feature>
+                Images = Convertor.EnumToCol(roomTypeModel.Images.Select(modelImage => new Image { Data = modelImage.Data })),
+                Features = Convertor.EnumToCol(roomTypeModel.Features.Select(featureModel => new Feature { Name = featureModel.Name }))
             });
             _context.SaveChanges();
         }
@@ -228,12 +244,12 @@ namespace Server
 
             _context.Add(new Reservation
             {
-                BeginDate = reservationModel.StartDate,
+                StartDate = reservationModel.StartDate,
                 EndDate = reservationModel.EndDate,
                 Customer = _context.Find<Customer>(reservationModel.UserId),
                 Rooms = rooms,
-                ExtraServices = reservationModel.Services.Select(serviceModel => new ExtraService { Id = serviceModel.Id })
-                as ICollection<ExtraService>,
+                ExtraServices = Convertor.EnumToCol(
+                    reservationModel.Services.Select(serviceModel => new ExtraService { Id = serviceModel.Id })),
                 State = ReservationState.Active,
             });
             _context.SaveChanges();
