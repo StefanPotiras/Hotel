@@ -226,8 +226,7 @@ namespace Server
                 imgCol.Add(image);
             }
 
-
-            _context.Add(new RoomType
+            RoomType roomType = new RoomType
             {
                 Description = roomTypeModel.Description,
                 BasePrice = roomTypeModel.Price,
@@ -235,7 +234,16 @@ namespace Server
                 RoomTitle = roomTypeModel.RoomTitle,
                 Images = Convertor.EnumToCol(roomTypeModel.Images.Select(modelImage => new Image { Data = modelImage.Data })),
                 Features = Convertor.EnumToCol(roomTypeModel.Features.Select(featureModel => new Feature { Name = featureModel.Name }))
-            });
+            };
+            ICollection<Room> rooms = new List<Room>();
+
+            for (int i = 0; i < roomTypeModel.NumberOfRooms; i++)
+            {
+                rooms.Add(new Room());
+            }
+            roomType.Rooms = rooms;
+
+            _context.Add(roomType);
             _context.SaveChanges();
         }
 
