@@ -64,14 +64,6 @@ namespace Server
             }
             if (!exists)
             {
-                User user = new User
-                {
-                    Username = userModel.Username,
-                    FirstName = userModel.FirstName,
-                    LastName = userModel.LastName,
-                    Password = userModel.Password
-                };
-
                 switch (userModel.Type)
                 {
                     case UserModel.UserType.Customer:
@@ -112,11 +104,50 @@ namespace Server
             return false;
         }
 
-        //public ObservableCollection<RoomTypeModel> GetAllRooms()
-        //{
-        //    ObservableCollection<RoomTypeModel> roomTypes = new ObservableCollection<RoomTypeModel>();
+        public ObservableCollection<RoomTypeModel> GetAllRooms()
+        {
+            ObservableCollection<RoomTypeModel> roomTypeModels = new ObservableCollection<RoomTypeModel>();
 
-        //    var roomTypesDb = _context.RoomTypes.Include(roomType => roomType.Prices).
-        //}
+            var roomTypesDb = _context.RoomTypes
+                .Include(roomType => roomType.Features)
+                .Include(roomType => roomType.Images)
+                .Include(roomType => roomType.Prices)
+                .Include(roomType => roomType.Rooms);
+
+            foreach (RoomType roomTypeDb in roomTypesDb)
+            {
+                ObservableCollection<FeatureModel> featureModels = new ObservableCollection<FeatureModel>();
+                ObservableCollection<ImageModel> imageModels = new ObservableCollection<ImageModel>();
+
+                foreach (Feature featureDb in roomTypeDb.Features)
+                {
+                    featureModels.Add(new FeatureModel { Id = featureDb.Id, Name = featureDb.Name });
+                }
+                foreach (Image imageDb in roomTypeDb.Images)
+                {
+                    imageModels.Add(new ImageModel { Id = imageDb.Id, Data = imageDb.Data });
+                }
+
+                DateTime now = DateTime.Now;
+                RoomPrice currentPrice = roomTypeDb.Prices
+                    .Where(rp => rp.StartDate.CompareTo(now) < 0 && rp.EndTime.CompareTo(now) > 0)
+                    .FirstOrDefault();
+
+                RoomTypeModel roomTypeModel = new RoomTypeModel()
+                {
+                    Capacity = roomTypeDb.Capacity,
+                    Description = roomTypeDb.Description,
+                    Id = roomTypeDb.Id,
+                    RoomTitle = roomTypeDb.RoomTitle,
+                    NumberOfRooms = roomTypeDb.Rooms.Count,
+                    Features = featureModels,
+                    Images = imageModels,
+                    Price = currentPrice != null ? currentPrice.Price : roomTypeDb.BasePrice
+                };
+                roomTypeModels.Add(roomTypeModel);
+            }
+
+            return roomTypeModels;
+        }
     }
 }
