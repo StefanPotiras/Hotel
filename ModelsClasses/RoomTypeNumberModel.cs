@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ModelsClasses
 {
-     class RoomTypeNumberModel
+    public class RoomTypeNumberModel
     {
-        public string RoomsType { get; set; }
-        public ObservableColection<int> RoomsNumber { get; set; }
+        public int RoomTypeId { get; set; }
+        public ObservableCollection<int> RoomNumbers { get; set; }
     }
 }

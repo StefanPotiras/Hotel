@@ -213,5 +213,30 @@ namespace Server
             _context.Add(new ExtraService { Name = servicesModel.Name, Price = servicesModel.Price });
             _context.SaveChanges();
         }
+
+        public void AddReservation(ReservationModel reservationModel)
+        {
+            ICollection<Room> rooms = new List<Room>();
+
+            foreach (var roomTypeNumberModel in reservationModel.AllRoomsWithType)
+            {
+                foreach (int roomNo in roomTypeNumberModel.RoomNumbers)
+                {
+                    rooms.Add(new Room { RoomNo = roomNo });
+                }
+            }
+
+            _context.Add(new Reservation
+            {
+                BeginDate = reservationModel.StartDate,
+                EndDate = reservationModel.EndDate,
+                Customer = _context.Find<Customer>(reservationModel.UserId),
+                Rooms = rooms,
+                ExtraServices = reservationModel.Services.Select(serviceModel => new ExtraService { Id = serviceModel.Id })
+                as ICollection<ExtraService>,
+                State = ReservationState.Active,
+            });
+            _context.SaveChanges();
+        }
     }
 }
