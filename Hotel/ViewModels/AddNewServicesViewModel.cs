@@ -2,6 +2,7 @@
 using Hotel.Models;
 using Hotel.Views;
 using ModelsClasses;
+using Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,7 +94,11 @@ namespace Hotel.ViewModels
         {
             if(priceTextBox!=null && sericesTextBox!=null)
             {
-                //aici add in data base
+                ServicesModel servicesModel = new ServicesModel();
+                servicesModel.Name = sericesTextBox;
+                servicesModel.Price = Decimal.Parse(priceTextBox);
+                using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
+                register.AddService(servicesModel);
                 UnauthorizedClientModel firstPage = new UnauthorizedClientModel();
                 UnauthorizedClient firstPageModel = new UnauthorizedClient(UserModel.UserType.Admin);
                 firstPage.DataContext = firstPageModel;

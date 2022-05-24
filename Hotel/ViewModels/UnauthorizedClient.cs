@@ -102,8 +102,8 @@ namespace Hotel.ViewModels
                 NotifyPropertyChanged("visibilityAdmin");
             }
         }
-        private Hotels selectedRoom;
-        public Hotels SelectedRoom
+        private TypeRoomsModelBinding selectedRoom;
+        public TypeRoomsModelBinding SelectedRoom
         {
             get
             {
@@ -116,7 +116,7 @@ namespace Hotel.ViewModels
                 if (selectedRoom != null)
                 {
                     DetaliiCamera detailRoom = new DetaliiCamera();
-                    DetailRoomViewModel loginVM = new DetailRoomViewModel();
+                    DetailRoomViewModel loginVM = new DetailRoomViewModel(SelectedRoom);
                     detailRoom.DataContext = loginVM;
                     App.Current.MainWindow.Close();
                     App.Current.MainWindow = detailRoom;
