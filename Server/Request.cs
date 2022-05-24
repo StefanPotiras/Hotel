@@ -201,6 +201,19 @@ namespace Server
             _context.SaveChanges();
         }
 
+        public void DeleteRoomType(int roomTypeId)
+        {
+            RoomType roomType = _context.RoomTypes.Find(roomTypeId);
+
+            foreach (Room room in roomType.Rooms)
+            {
+                room.Deleted = true;
+            }
+            roomType.Deleted = true;
+
+            _context.SaveChanges();
+        }
+
         public void AddRoomType(RoomTypeModel roomTypeModel)
         {
             var images = roomTypeModel.Images.Select(modelImage => new Image { Data = modelImage.Data });
