@@ -152,14 +152,14 @@ namespace Server
             return roomTypeModels;
         }
 
-       
+
         private int NrOfAvailableRooms(int RoomTypeId)
         {
             return _context.Rooms.Where(room => room.RoomType.Id == RoomTypeId
             && room.Reservation.EndDate < DateTime.Now && room.Reservation.BeginDate < DateTime.Now).Count();
         }
 
-        
+
         public ObservableCollection<RoomTypeModel> GetRoomsByDate(DateTime startDate, DateTime endDate)
         {
             var rooms = GetAllRooms();
@@ -170,7 +170,7 @@ namespace Server
             return rooms.Where(room => room.NumberOfRooms > 0) as ObservableCollection<RoomTypeModel>;
         }
 
-        
+
         public void UpdateReservationStatus(int ReservationId, ReservationState state)
         {
             Reservation reservation = _context.Find<Reservation>(ReservationId);
@@ -180,8 +180,8 @@ namespace Server
 
         public void DeleteRoom(int roomNo)
         {
-            Room room = new Room { RoomNo = roomNo };
-            _context.Remove(room);
+            Room room = _context.Find<Room>(roomNo);
+            room.Deleted = true;
             _context.SaveChanges();
         }
 
