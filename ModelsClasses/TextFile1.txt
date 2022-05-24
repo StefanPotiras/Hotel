@@ -1,7 +1,4 @@
-﻿Login
-Register
-Get All Room
-Delete Room by id
+﻿Delete Room by id
 Add Room
 Get Rooms StartDate-EndDate
 Add Reserv
