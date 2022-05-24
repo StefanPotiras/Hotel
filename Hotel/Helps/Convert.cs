@@ -25,6 +25,7 @@ namespace Hotel.Helps
                 variab.Id = index.Id;
                 variab.Features = index.Features;
                 variab.convertImages();
+                tempArray.Add(variab);
             }
             return tempArray;
         }

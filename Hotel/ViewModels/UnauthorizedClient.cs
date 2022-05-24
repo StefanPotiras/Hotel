@@ -37,7 +37,8 @@ namespace Hotel.ViewModels
             {
 
             }
-           
+            using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
+            curentRooms = Helps.Convert.returnVector(register.GetAllRooms());
         }
 
         public ObservableCollection<TypeRoomsModelBinding> HotelsCurrent
@@ -247,7 +248,25 @@ namespace Hotel.ViewModels
         public void SearchFc(object buttonClicked)
         {
             using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
-            curentRooms = register.GetRoomsByDate(StartDate,EndDate);
+            curentRooms = Helps.Convert.returnVector( register.GetRoomsByDate(StartDate,EndDate));
+
+        }
+        private ICommand DeleteFilterCommand;
+        public ICommand DeleteFilter
+        {
+            get
+            {
+                if (DeleteFilterCommand == null)
+                {
+                    DeleteFilterCommand = new RelayCommands(DeleteFc);
+                }
+                return DeleteFilterCommand;
+            }
+        }
+        public void DeleteFc(object buttonClicked)
+        {
+            using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
+            curentRooms = Helps.Convert.returnVector(register.GetAllRooms());
 
         }
     }

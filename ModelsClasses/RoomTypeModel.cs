@@ -16,6 +16,6 @@ namespace ModelsClasses
         public string RoomTitle { get; set; }
         public int NumberOfRooms { get; set; }
         public ObservableCollection<FeatureModel> Features { get; set; }
-        public ObservableCollection<ImageModel> Images { get; set; }
+        public ObservableCollection<ImageModel> Images = new ObservableCollection<ImageModel>();
     }
 }

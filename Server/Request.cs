@@ -187,13 +187,22 @@ namespace Server
 
         public void AddRoomType(RoomTypeModel roomTypeModel)
         {
+           var images = roomTypeModel.Images.Select(modelImage => new Image { Data = modelImage.Data });
+
+            ICollection<Image> imgCol = new List<Image>();
+            foreach (Image image in images)
+            {
+                imgCol.Add(image);
+            }
+
+
             _context.Add(new RoomType
             {
                 Description = roomTypeModel.Description,
                 BasePrice = roomTypeModel.Price,
                 Capacity = roomTypeModel.Capacity,
                 RoomTitle = roomTypeModel.RoomTitle,
-                Images = roomTypeModel.Images.Select(modelImage => new Image { Data = modelImage.Data }) as ICollection<Image>,
+                Images = imgCol,
                 Features = roomTypeModel.Features.Select(featureModel => new Feature { Name = featureModel.Name }) as ICollection<Feature>
             });
             _context.SaveChanges();
