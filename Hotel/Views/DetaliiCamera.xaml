@@ -6,13 +6,19 @@
         xmlns:ctx="clr-namespace:Hotel.ViewModel"
         xmlns:local="clr-namespace:Hotel.Views"
         mc:Ignorable="d"
-        Title="DetaliiCamera" Height="350" Width="800">
+        Title="DetaliiCamera" Height="450" Width="800">
 
     <Window.DataContext>
         <ctx:DetailRoomViewModel/>
     </Window.DataContext>
-    <Grid>   
-        <StackPanel  Orientation="Horizontal">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Button Width="100" Height="30" Margin="0 0 600 0" Command="{Binding Back}" Grid.Row="0">Back</Button>
+        <StackPanel  Orientation="Horizontal" Grid.Row="1" >
+            
             <StackPanel Orientation="Vertical" Width="300">
                 <Image Height="200" Width="200" Margin="0 30 0 0"  Source="{Binding ImageSource}"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 30 0 0">
@@ -23,9 +29,13 @@
             </StackPanel>
             <StackPanel Margin="30 30 30 30">
                 <Label FontSize="20" Content="Features:"></Label>
-                <Label FontSize="20">Price:</Label>
+                <Label FontSize="20" Content="{Binding FeaturesR}"></Label>
+                <Label FontSize="20" >Price:</Label>
+                <Label FontSize="20" Content="{Binding PriceR}"></Label>
                 <Label FontSize="20">Number Of Rooms avalabile:</Label>
+                <Label FontSize="20" Content="{Binding NumberOfRoomsR}"></Label>
                 <Label FontSize="20">Descriere:</Label>
+                <Label FontSize="20" Content="{Binding DescriptionR}"></Label>
             </StackPanel>
         </StackPanel>
 
