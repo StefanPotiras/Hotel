@@ -260,13 +260,13 @@ namespace Server
                 {
                     price += room.RoomType.BasePrice * (decimal)(reservation.EndDate - reservation.StartDate).TotalDays;
                 }
-                foreach(ExtraService service in reservation.ExtraServices)
+                foreach (ExtraService service in reservation.ExtraServices)
                 {
                     price += service.Price * (decimal)(reservation.EndDate - reservation.StartDate).TotalDays;
                 }
 
-               // ObservableCollection<RoomTypeNumberModel> roomTypes = new ObservableCollection<RoomTypeNumberModel>();
-                
+                // ObservableCollection<RoomTypeNumberModel> roomTypes = new ObservableCollection<RoomTypeNumberModel>();
+
                 //foreach(RoomType roomType)
 
                 reservationModels.Add(new ReservationModel
@@ -293,7 +293,44 @@ namespace Server
 
         public ICollection<ReservationModel> GetReservationsForCustomer(int customerId)
         {
-            return Convertor.EnumToCol (GetAllReservations().Where(r => r.UserId == customerId));
+            return Convertor.EnumToCol(GetAllReservations().Where(r => r.UserId == customerId));
+        }
+
+        public void UpdateRoomType(RoomTypeModel roomTypeModel)
+        {
+            var rooms = _context.Rooms.Where(r => r.RoomType.Id == roomTypeModel.Id);
+
+            RoomType updatedRoomType = new RoomType
+            {
+                BasePrice = roomTypeModel.Price,
+                Capacity = roomTypeModel.Capacity,
+                Description = roomTypeModel.Description,
+                Images = Convertor.EnumToCol(roomTypeModel.Images.Select(img => new Image { Data = img.Data })),
+                RoomTitle = roomTypeModel.RoomTitle,
+                Features = Convertor.EnumToCol(roomTypeModel.Features.Select(f => new Feature { Name = f.Name })),
+            };
+            _context.Update(updatedRoomType);
+
+            if (roomTypeModel.NumberOfRooms < rooms.Count())
+            {
+                var itr = rooms.GetEnumerator();
+
+                for (int i = 0; i < rooms.Count() - roomTypeModel.NumberOfRooms; i++)
+                {
+                    itr.MoveNext();
+                    itr.Current.Deleted = true;
+                }
+
+            }
+            else if (roomTypeModel.NumberOfRooms > rooms.Count())
+            {
+                for (int i = 0; i < -rooms.Count() + roomTypeModel.NumberOfRooms; i++)
+                {
+                    _context.Rooms.Add(new Room { RoomType = updatedRoomType });
+                }
+            }
+
+            _context.SaveChanges();
         }
 
         public void AddReservation(ReservationModel reservationModel)
