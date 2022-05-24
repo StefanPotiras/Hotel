@@ -153,18 +153,18 @@ namespace Server
         }
 
 
-        private int NrOfAvailableRooms(int RoomTypeId , DateTime StartDate, DateTime EndDate)
+        private int NrOfAvailableRooms(int RoomTypeId, DateTime StartDate, DateTime EndDate)
         {
             int UnavailableRooms = 0;
-            int TotalRooms = _context.Rooms.Where(r=>r.RoomType.Id == RoomTypeId).Count();
+            int TotalRooms = _context.Rooms.Where(r => r.RoomType.Id == RoomTypeId).Count();
 
-            foreach(Reservation reservation in _context.Reservations)
+            foreach (Reservation reservation in _context.Reservations)
             {
-                foreach(Room room in reservation.Rooms)
+                foreach (Room room in reservation.Rooms)
                 {
-                    if(room.RoomType.Id == RoomTypeId)
+                    if (room.RoomType.Id == RoomTypeId)
                     {
-                        if(reservation.StartDate <EndDate || reservation.EndDate > StartDate)
+                        if (reservation.StartDate < EndDate || reservation.EndDate > StartDate)
                         {
                             UnavailableRooms++;
                         }
@@ -181,9 +181,9 @@ namespace Server
             var rooms = GetAllRooms();
             foreach (RoomTypeModel roomTypeModel in rooms)
             {
-                roomTypeModel.NumberOfRooms = NrOfAvailableRooms(roomTypeModel.Id);
+                roomTypeModel.NumberOfRooms = NrOfAvailableRooms(roomTypeModel.Id, startDate, endDate);
             }
-            return rooms.Where(room => room.NumberOfRooms > 0) as ObservableCollection<RoomTypeModel>;
+            return Convertor.EnumToObsCol(rooms.Where(room => room.NumberOfRooms > 0));
         }
 
 
