@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using ModelsClasses;
 
 namespace Hotel.Helps
@@ -19,8 +20,37 @@ namespace Hotel.Helps
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-       
-        public int ID
+        public ObservableCollection<BitmapImage> allImages = new ObservableCollection<BitmapImage>();
+        public TypeRoomsModelBinding()
+        {
+            foreach (var index in Images )
+            {
+                allImages.Add(Test.ToImage(index.Data)) ;
+            }
+        }
+        public void convertImages()
+        {
+            foreach (var index in Images)
+            {
+                allImages.Add(Test.ToImage(index.Data));
+            }
+        }
+
+       public ObservableCollection<BitmapImage> ImagesRoom
+        {
+            get
+            {
+                return allImages;
+            }
+            set
+            {
+                allImages = value;
+                NotifyPropertyChanged("ImagesRoom");
+            }
+        }
+
+
+        public int IDR
         {
             get
             {

@@ -30,8 +30,8 @@
                 <Label Margin="20 0 0 0">Finish Date</Label>
                 <DatePicker Width="200" Height="30" Margin="20 0 0 0" SelectedDate="{Binding EndDate}"></DatePicker>
             </StackPanel>
-            <Button Width="150" Height="30" Margin="20 0 0 0">Search</Button>
-            <Button Width="100" Height="30" Margin="20 0 0 0">Delete Filter</Button>
+            <Button Width="150" Height="30" Margin="20 0 0 0"  Command="{Binding SearchBind}">Search</Button>
+            <Button Width="100" Height="30" Margin="20 0 0 0"  Command="{Binding DeleteFilter}">Delete Filter</Button>
         </StackPanel>
 
         <Label  Grid.Row="0" FontSize="40" FontWeight="Bold" Margin="40 0 0 0">Welcome Stanger</Label>

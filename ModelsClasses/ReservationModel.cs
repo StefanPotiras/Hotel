@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 //{ Username,Price,StartDate,EndDate,Status,RoomsNumber,RoomsType,Extra}
 namespace ModelsClasses
 {
-    class ReservationModel
+     class ReservationModel
     {
         
 
@@ -19,7 +19,8 @@ namespace ModelsClasses
         public DateTime EndDate { get; set; }
         public ReservationState State { get; set; }
         public int NumberOfRooms { get; set; }
-
-
+        public ObservableColection<ServicesModel> Services { get; set; }
+        public ObservableColection<RoomTypeNumberModel> AllRoomsWithType { get; set; }
+       
     }
 }

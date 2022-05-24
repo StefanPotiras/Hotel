@@ -11,21 +11,18 @@ using Hotel.Views;
 using ModelsClasses;
 using System.Windows.Media.Imaging;
 using System.Drawing;
+using Server;
 
 namespace Hotel.ViewModels
 {
     public class UnauthorizedClient : NotifyViewModel
     {
         private const string V = "C:\\Users\\StefanPotiras\\Desktop\\ImageTest\\img1.jpg";
-        ObservableCollection<Hotels> hotelsCurrent = new ObservableCollection<Hotels>();
+        ObservableCollection<TypeRoomsModelBinding> curentRooms = new ObservableCollection<TypeRoomsModelBinding>();
         public UnauthorizedClient()
         { }
         public UnauthorizedClient(UserModel.UserType useType)
-        {
-            System.Drawing.Image newImage = System.Drawing.Image.FromFile(V);
-            byte[] ar = Test.converterDemo(newImage);
-            BitmapImage me = Test.ToImage(ar);
-
+        {         
             if (useType == UserModel.UserType.Admin)
             {
                 visibility = true;
@@ -40,34 +37,14 @@ namespace Hotel.ViewModels
             {
 
             }
-            Hotels temp1 = new Hotels(visibilityAdmin);
-            temp1.tipCamera = "Camera cu 2 paturi";
-            temp1.pret = "100$";
-            temp1.numarPersoane = "2";
-            temp1.nrRoom = "3";
-            ObservableCollection<BitmapImage> images = new ObservableCollection<BitmapImage>();
-            images.Add(me);
-
-            temp1.images = images;
-            //temp1.imagesRoom.images.Add("C:\\Users\\StefanPotiras\\Desktop\\ImageTest\\img1.jpg");
-            Hotels temp2 = new Hotels(visibilityAdmin);
-            temp2.tipCamera = "Camera cu 5 paturi";
-            temp2.pret = "150$";
-            temp2.numarPersoane = "10";
-            // temp2.imagesRoom.images.Add("C:\\Users\\StefanPotiras\\Desktop\\ImageTest\\img1.jpg");
-            ObservableCollection<BitmapImage> images2 = new ObservableCollection<BitmapImage>();
-            images2.Add(me);
-            temp2.images = images2;
-            hotelsCurrent.Add(temp1);
-            hotelsCurrent.Add(temp2);
-
+           
         }
 
-        public ObservableCollection<Hotels> HotelsCurrent
+        public ObservableCollection<TypeRoomsModelBinding> HotelsCurrent
         {
             get
             {
-                return hotelsCurrent;
+                return curentRooms;
             }
         }
         private DateTime selectedStartDate;
@@ -253,6 +230,25 @@ namespace Hotel.ViewModels
             App.Current.MainWindow.Close();
             App.Current.MainWindow = firstPage;
             firstPage.Show();
+        }
+
+        private ICommand SearchCommand;
+        public ICommand SearchBind
+        {
+            get
+            {
+                if (SearchCommand == null)
+                {
+                    SearchCommand = new RelayCommands(SearchFc);
+                }
+                return SearchCommand;
+            }
+        }
+        public void SearchFc(object buttonClicked)
+        {
+            using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
+            curentRooms = register.GetRoomsByDate(StartDate,EndDate);
+
         }
     }
 }

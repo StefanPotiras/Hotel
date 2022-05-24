@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace ModelsClasses
 {
-    class RoomTypeNumberModel
+     class RoomTypeNumberModel
     {
+        public string RoomsType { get; set; }
+        public ObservableColection<int> RoomsNumber { get; set; }
     }
 }

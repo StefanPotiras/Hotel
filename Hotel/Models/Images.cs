@@ -9,9 +9,6 @@ namespace Hotel.Models
     public class Images
     {
         public Images() { }
-        public ObservableCollection<BitmapImage> images { get; set; }
-
-        public ObservableCollection<int> imagesBinary { get; set; }
-
+        public ObservableCollection<BitmapImage> images { get; set; }    
     }
 }
