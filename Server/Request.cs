@@ -245,54 +245,56 @@ namespace Server
             _context.SaveChanges();
         }
 
-        //public ICollection<ReservationModel> GetAllReservations()
-        //{
-        //    ICollection<ReservationModel> reservationModels = new List<ReservationModel>();
+        public ICollection<ReservationModel> GetAllReservations()
+        {
+            ICollection<ReservationModel> reservationModels = new List<ReservationModel>();
 
+            foreach (Reservation reservation in _context.Reservations
+                .Include(r => r.Rooms)
+                .ThenInclude(room => room.RoomType)
+                .Include(r => r.ExtraServices))
+            {
+                decimal price = 0;
 
+                foreach (Room room in reservation.Rooms)
+                {
+                    price += room.RoomType.BasePrice * (decimal)(reservation.EndDate - reservation.StartDate).TotalDays;
+                }
+                foreach(ExtraService service in reservation.ExtraServices)
+                {
+                    price += service.Price * (decimal)(reservation.EndDate - reservation.StartDate).TotalDays;
+                }
 
-        //    foreach (Reservation reservation in _context.Reservations
-        //        .Include(r => r.Rooms)
-        //        .ThenInclude(room => room.RoomType)
-        //        .Include(r => r.ExtraServices))
-        //    {
-        //        decimal price = 0;
-
+               // ObservableCollection<RoomTypeNumberModel> roomTypes = new ObservableCollection<RoomTypeNumberModel>();
                 
+                //foreach(RoomType roomType)
 
-        //        foreach (Room room in reservation.Rooms)
-        //        {
-        //            RoomPrice currentPrice = room.RoomType.Prices
-        //            .Where(rp => rp.StartDate.CompareTo(now) < 0 && rp.EndTime.CompareTo(now) > 0)
-        //            .FirstOrDefault();
-        //            price += ro
-        //        }
+                reservationModels.Add(new ReservationModel
+                {
+                    StartDate = reservation.StartDate,
+                    EndDate = reservation.EndDate,
+                    State = reservation.State,
+                    UserId = reservation.Id,
+                    Username = _context.Customers.Find(reservation.Id).Username,
+                    NumberOfRooms = reservation.Rooms.Count(),
+                    Services = Convertor.EnumToObsCol(
+                        reservation.ExtraServices.Select(serv => new ServicesModel
+                        {
+                            Id = serv.Id,
+                            Name = serv.Name,
+                            Price = serv.Price
+                        })),
+                    Price = price,
+                    //AllRoomsWithType = \
+                });
+            }
+            return reservationModels;
+        }
 
-        //        reservationModels.Add(new ReservationModel
-        //        {
-        //            StartDate = reservation.StartDate,
-        //            EndDate = reservation.EndDate,
-        //            State = reservation.State,
-        //            UserId = reservation.Id,
-        //            Username = _context.Customers.Find(reservation.Id).Username,
-        //            NumberOfRooms = reservation.Rooms.Count(),
-        //            Services = Convertor.EnumToObsCol(
-        //                reservation.ExtraServices.Select(serv => new ServicesModel
-        //                {
-        //                    Id = serv.Id,
-        //                    Name = serv.Name,
-        //                    Price = serv.Price
-        //                })),
-        //            Price = reservation.Rooms.
-        //        });
-        //    }
-        //    return reservationModels;
-        //}
-
-        //public ICollection<ReservationModel> GetReservationsForCustomer(int customerId)
-        //{
-
-        //}
+        public ICollection<ReservationModel> GetReservationsForCustomer(int customerId)
+        {
+            return Convertor.EnumToCol (GetAllReservations().Where(r => r.UserId == customerId));
+        }
 
         public void AddReservation(ReservationModel reservationModel)
         {
