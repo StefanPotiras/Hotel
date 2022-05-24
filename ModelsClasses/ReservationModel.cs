@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-Reserv
-{ Username,Price,StartDate,EndDate,Status,RoomsNumber,RoomsType,Extra}
+// Reserv
+//{ Username,Price,StartDate,EndDate,Status,RoomsNumber,RoomsType,Extra}
 namespace ModelsClasses
 {
     class ReservationModel

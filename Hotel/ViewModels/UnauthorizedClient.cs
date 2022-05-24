@@ -9,17 +9,23 @@ using Hotel.Models;
 using Hotel.ViewModel;
 using Hotel.Views;
 using ModelsClasses;
+using System.Windows.Media.Imaging;
+using System.Drawing;
 
 namespace Hotel.ViewModels
 {
     public class UnauthorizedClient : NotifyViewModel
     {
-
+        private const string V = "C:\\Users\\StefanPotiras\\Desktop\\ImageTest\\img1.jpg";
         ObservableCollection<Hotels> hotelsCurrent = new ObservableCollection<Hotels>();
         public UnauthorizedClient()
         { }
         public UnauthorizedClient(UserModel.UserType useType)
         {
+            System.Drawing.Image newImage = System.Drawing.Image.FromFile(V);
+            byte[] ar = Test.converterDemo(newImage);
+            BitmapImage me = Test.ToImage(ar);
+
             if (useType == UserModel.UserType.Admin)
             {
                 visibility = true;
@@ -39,8 +45,8 @@ namespace Hotel.ViewModels
             temp1.pret = "100$";
             temp1.numarPersoane = "2";
             temp1.nrRoom = "3";
-            ObservableCollection<string> images = new ObservableCollection<string>();
-            images.Add("C:\\Users\\StefanPotiras\\Desktop\\ImageTest\\img1.jpg");
+            ObservableCollection<BitmapImage> images = new ObservableCollection<BitmapImage>();
+            images.Add(me);
 
             temp1.images = images;
             //temp1.imagesRoom.images.Add("C:\\Users\\StefanPotiras\\Desktop\\ImageTest\\img1.jpg");
@@ -49,8 +55,8 @@ namespace Hotel.ViewModels
             temp2.pret = "150$";
             temp2.numarPersoane = "10";
             // temp2.imagesRoom.images.Add("C:\\Users\\StefanPotiras\\Desktop\\ImageTest\\img1.jpg");
-            ObservableCollection<string> images2 = new ObservableCollection<string>();
-            images2.Add("C:\\Users\\StefanPotiras\\Desktop\\ImageTest\\img2.jpg");
+            ObservableCollection<BitmapImage> images2 = new ObservableCollection<BitmapImage>();
+            images2.Add(me);
             temp2.images = images2;
             hotelsCurrent.Add(temp1);
             hotelsCurrent.Add(temp2);

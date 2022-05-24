@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using Hotel.Helps;
 using Hotel.Models;
 namespace Hotel.ViewModels
 {
     class FirstPageViewModel : NotifyViewModel
     {
-       public FirstPageViewModel()
+        private const string V = "C:\\Users\\StefanPotiras\\Desktop\\ImageTest\\img2.jpg";
+
+        public FirstPageViewModel()
         {
-             
+           
         }
       
         public bool CanExecuteCommandSignIn { get; set; } = false;
@@ -93,7 +97,7 @@ namespace Hotel.ViewModels
         }
        async public void test123(object param)
         { 
-            RestApi = await Test.f();
+           
         }
         public string restApi;
         public string RestApi

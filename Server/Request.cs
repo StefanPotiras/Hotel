@@ -22,8 +22,8 @@ namespace Server
             //@"Server=localhost\SQLEXPRESS;Database=Hotel;Trusted_Connection=True;"
 
             _context = new HotelContext(options);
-            _context.Database.EnsureDeleted();
-            _context.Database.EnsureCreated();
+            //_context.Database.EnsureDeleted();
+            //_context.Database.EnsureCreated();
 
         }
 

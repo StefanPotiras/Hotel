@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace Hotel.Models
 {
@@ -54,7 +55,7 @@ namespace Hotel.Models
         public string nrRoom;
         public bool vizibilityAdmin;
 
-        public ObservableCollection<string> images { get; set; }
+        public ObservableCollection<BitmapImage> images { get; set; }
         public string NrRoom
         {
             get
@@ -80,7 +81,7 @@ namespace Hotel.Models
             }
         }
 
-        public ObservableCollection<string> ImagesRoom
+        public ObservableCollection<BitmapImage> ImagesRoom
         {
             get
             {

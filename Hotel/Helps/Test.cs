@@ -1,34 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace Hotel.Helps
 {
-    class Test
+    public static class Test
     {
-        public static async Task<string> f()
+        public static byte[] converterDemo(Image x)
         {
-            string baseUrl = @"https://swapi.dev/api/";
-
-            using (var client = new HttpClient())
+            ImageConverter _imageConverter = new ImageConverter();
+            byte[] xByte = (byte[])_imageConverter.ConvertTo(new Bitmap(x), typeof(byte[]));
+            return xByte;
+        }
+        public static BitmapImage ToImage(byte[] array)
+        {
+            using (var ms = new System.IO.MemoryStream(array))
             {
-                client.BaseAddress = new Uri(baseUrl);
-
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                //client.DefaultRequestHeaders.met
-                HttpResponseMessage res = await client.GetAsync(@"people/1");
-
-                if (res.IsSuccessStatusCode)
-                {
-                    var strRes = res.Content.ReadAsStringAsync().Result;
-                    return strRes;
-                }
-                return "";
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad; // here
+                image.StreamSource = ms;
+                image.EndInit();
+                return image;
             }
         }
     }
