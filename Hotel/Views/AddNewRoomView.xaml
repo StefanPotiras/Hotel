@@ -53,13 +53,13 @@
         </StackPanel>
         <StackPanel  Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center">
             <Label FontSize="30">Number of Images:</Label>
-            <Label FontSize="30" Content="{Binding ImageNumber}"></Label>
+                <Label FontSize="30" Content="{Binding ImageNumber ,UpdateSourceTrigger=PropertyChanged}"></Label>
         </StackPanel>
         <StackPanel Grid.Row="6" Margin="0 60 0 0" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Content="Add Images" Grid.Row="6" Width="200"
                  Height="50" Click="Button_Click"  ></Button>
             <Button Content="Remove Last" Grid.Row="6" Width="200" Margin="40 0 0 0"
-                 Height="50"></Button>
+                 Height="50" Command="{Binding RemoveLast}"></Button>
         </StackPanel>
             <Button Content="Add Room" Grid.Row="7" Width="400" FontSize="30" Height="50" Margin="0 0 0 20" Command="{Binding AddRoom}"></Button>
     </Grid>

@@ -6,6 +6,8 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Hotel.Helps;
 using Hotel.Models;
+using ModelsClasses;
+
 namespace Hotel.ViewModels
 {
     class FirstPageViewModel : NotifyViewModel
@@ -77,7 +79,7 @@ namespace Hotel.ViewModels
         public void NextFunction(object param)
         {
             UnauthorizedClientModel roomsWondow = new UnauthorizedClientModel();
-            UnauthorizedClient loginVM = new UnauthorizedClient();
+            UnauthorizedClient loginVM = new UnauthorizedClient(UserModel.UserType.None);
             roomsWondow.DataContext = loginVM;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = roomsWondow;

@@ -29,5 +29,24 @@ namespace Hotel.Helps
             }
             return tempArray;
         }
+
+        public static ObservableCollection<ReservationsViewModelBind> returnVectorReserv(ObservableCollection<ReservationModel> temp)
+        {
+            ObservableCollection<ReservationsViewModelBind> tempArray = new ObservableCollection<ReservationsViewModelBind>();
+            foreach (var index in temp)
+            {
+                ReservationsViewModelBind variab = new ReservationsViewModelBind();
+                variab.Username = index.Username;
+                variab.UserId = index.UserId;
+                variab.Price = index.Price;
+                variab.StartDate = index.StartDate;
+                variab.EndDate = index.EndDate;
+                variab.State = index.State;
+                variab.NumberOfRooms = index.NumberOfRooms;
+               
+                tempArray.Add(variab);
+            }
+            return tempArray;
+        }
     }
 }

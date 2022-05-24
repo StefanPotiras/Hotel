@@ -4,29 +4,34 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using Hotel.Views;
+using Hotel.Helps;
+using Server;
+using ModelsClasses;
+
 namespace Hotel.ViewModels
 {
     public class ReservationsViewModel : NotifyViewModel
     {
+        ObservableCollection<ReservationsViewModelBind> reservationsCurrent = new ObservableCollection<ReservationsViewModelBind>();
         public ReservationsViewModel()
         {
+            ObservableCollection<ReservationModel> reservationModels = new ObservableCollection<ReservationModel>();
+            using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
+            reservationsCurrent = Helps.Convert.returnVectorReserv(register.GetAllReservations());
 
-            Reservations reservations = new Reservations();
-            reservations.cameraType = "mare";
-            reservations.dateStart = "12.10.21";
-            reservations.name = "Stefan";
-            reservations.roomNumber = 102;
-            reservations.reservationStatus = EnumClass.neplatit;
-            reservationsCurrent.Add(reservations);
         }
-        ObservableCollection<Reservations> reservationsCurrent = new ObservableCollection<Reservations>();
+      
 
 
-        public ObservableCollection<Reservations> ReservationsCurrent
+        public ObservableCollection<ReservationsViewModelBind> ReservationsCurrent
         {
             get
             {
                 return reservationsCurrent;
+            }
+            set
+            {
+                reservationsCurrent = value;
             }
         }
     }

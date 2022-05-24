@@ -5,8 +5,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using Hotel.Models;
+using Hotel.ViewModels;
+using Hotel.Views;
 using ModelsClasses;
+using Server;
 
 namespace Hotel.Helps
 {
@@ -35,8 +40,65 @@ namespace Hotel.Helps
                 allImages.Add(Test.ToImage(index.Data));
             }
         }
+        private ICommand DeleteRoomCommand;
+        public ICommand DeleteRoom
+        {
+            get
+            {
+                if (DeleteRoomCommand == null)
+                {
+                    DeleteRoomCommand = new RelayCommands(DeleteRoomFc);
+                }
+                return DeleteRoomCommand;
+            }
+        }
+        public void DeleteRoomFc(object buttonClicked)
+        {
+            string indexRoom = buttonClicked.ToString();
+            using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
+            register.DeleteRoomType(Int32.Parse(indexRoom));
 
-       public ObservableCollection<BitmapImage> ImagesRoom
+            UnauthorizedClientModel firstPage = new UnauthorizedClientModel();
+            UnauthorizedClient firstPageModel = new UnauthorizedClient(UserModel.UserType.Admin);
+            firstPage.DataContext = firstPageModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = firstPage;
+            firstPage.Show();
+        }
+        private ICommand ModifyRoomComand;
+        public ICommand ModifyRoom
+        {
+            get
+            {
+                if (ModifyRoomComand == null)
+                {
+                    ModifyRoomComand = new RelayCommands(ModifiyFc);
+                }
+                return ModifyRoomComand;
+            }
+        }
+        public void ModifiyFc(object buttonClicked)
+        {
+            TypeRoomsModelBinding typeRoomsModelBinding = new TypeRoomsModelBinding();
+            typeRoomsModelBinding.Id = Id;
+            typeRoomsModelBinding.Price = Price;
+            typeRoomsModelBinding.Description = Description;
+            typeRoomsModelBinding.Capacity = Capacity;
+            typeRoomsModelBinding.NumberOfRooms = NumberOfRooms;
+            typeRoomsModelBinding.Features = Features;
+            typeRoomsModelBinding.Images = Images;
+            typeRoomsModelBinding.RoomTitle = RoomTitle;
+            typeRoomsModelBinding.convertImages();
+
+
+            AddNewRoomView firstPage = new AddNewRoomView();       
+            AddNewRoomViewModel firstPageModel = new AddNewRoomViewModel(typeRoomsModelBinding,true);
+            firstPage.DataContext = firstPageModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = firstPage;
+            firstPage.Show();
+        }
+        public ObservableCollection<BitmapImage> ImagesRoom
         {
             get
             {

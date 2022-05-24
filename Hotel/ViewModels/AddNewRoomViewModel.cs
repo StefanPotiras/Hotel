@@ -1,4 +1,5 @@
 ﻿using Hotel.Helps;
+using Hotel.Models;
 using ModelsClasses;
 using Server;
 using System;
@@ -15,13 +16,37 @@ namespace Hotel.ViewModels
 {
     class AddNewRoomViewModel : NotifyViewModel
     {
-        public AddNewRoomViewModel()
+        TypeRoomsModelBinding typeRoomsModelBinding = new TypeRoomsModelBinding();
+        public AddNewRoomViewModel() { }
+        bool isUpdate;
+        public AddNewRoomViewModel(TypeRoomsModelBinding typeRoomsModelBinding, bool isUpdate)
         {
-            roomNumberTextBox = "Test";
-            bucatarie = true;
-            gratar = true;
-            foisor = true;
-            selectedType = "DoubleRoom";
+            this.isUpdate = isUpdate;
+            if (isUpdate == true)
+            {
+                this.typeRoomsModelBinding = typeRoomsModelBinding;
+                roomNumberTextBox = typeRoomsModelBinding.NumberOfRooms.ToString();
+                priceTextBox = typeRoomsModelBinding.Price.ToString();
+                descriptionTextBox = typeRoomsModelBinding.Description;
+                capacityTextBox = typeRoomsModelBinding.Capacity.ToString();
+                selectedType = typeRoomsModelBinding.RoomTitle;
+                foreach (var index in typeRoomsModelBinding.Features)
+                {
+                    if (index.Name == "Gratar")
+                        gratar = true;
+                    if (index.Name == "Foisor")
+                        foisor = true;
+                    if (index.Name == "Balcon")
+                        balcon = true;
+                    if (index.Name == "MasinaDeSpalat")
+                        masinaDeSpalat = true;
+                    if (index.Name == "Bucatarie")
+                        Bucatarie = true;
+                }
+                ImageNumber = typeRoomsModelBinding.Images.Count;
+            }
+
+
         }
         public string roomNumberTextBox;
         public string priceTextBox;
@@ -33,7 +58,7 @@ namespace Hotel.ViewModels
         public bool balcon;
         public bool masinaDeSpalat;
         public bool bucatarie;
-        public ObservableCollection<ObservableCollection<byte>> matrixImages=new ObservableCollection<ObservableCollection<byte>>();
+        public ObservableCollection<ObservableCollection<byte>> matrixImages = new ObservableCollection<ObservableCollection<byte>>();
         public ObservableCollection<Image> vectorImg = new ObservableCollection<Image>();
         string imgTemp;
         public string ImgTemp
@@ -45,10 +70,11 @@ namespace Hotel.ViewModels
             }
             set
             {
-                
+
                 imgTemp = value;
-                string test = imgTemp.Remove(0,8);
+                string test = imgTemp.Remove(0, 8);
                 vectorImg.Add(Image.FromFile(test));
+                ImageNumber++;
                 NotifyPropertyChanged("imgTemp");
             }
 
@@ -66,7 +92,32 @@ namespace Hotel.ViewModels
                 return AddRommComand;
             }
         }
-
+        private ICommand RemoveLastImg;
+        public ICommand RemoveLast
+        {
+            get
+            {
+                if (RemoveLastImg == null)
+                {
+                    RemoveLastImg = new RelayCommands(RemoveLastFc);
+                }
+                return RemoveLastImg;
+            }
+        }
+        public void RemoveLastFc(object param)
+        {
+            if (vectorImg.Count > 0)
+            {
+                vectorImg.RemoveAt(vectorImg.Count - 1);
+                ImageNumber--;
+            }
+            else
+            if (typeRoomsModelBinding.Images.Count > 0)
+            {
+                typeRoomsModelBinding.Images.RemoveAt(vectorImg.Count - 1);
+                ImageNumber--;
+            }
+        }
         public void AddRoomFunction(object param)
         {
             RoomTypeModel roomTypeModel = new RoomTypeModel();
@@ -77,7 +128,7 @@ namespace Hotel.ViewModels
             roomTypeModel.Price = Decimal.Parse(PriceTextBox);
             ObservableCollection<FeatureModel> Features = new ObservableCollection<FeatureModel>();
             if (!gratar)
-                Features.Add(new FeatureModel{ Name = "Gratar" });
+                Features.Add(new FeatureModel { Name = "Gratar" });
             if (!foisor)
                 Features.Add(new FeatureModel { Name = "Foisor" });
             if (!balcon)
@@ -86,28 +137,54 @@ namespace Hotel.ViewModels
                 Features.Add(new FeatureModel { Name = "MasinaDeSpalat" });
             if (!Bucatarie)
                 Features.Add(new FeatureModel { Name = "Bucatarie" });
-           
+
             roomTypeModel.Features = Features;
             ObservableCollection<ImageModel> ImageModels = new ObservableCollection<ImageModel>();
             foreach (var index in vectorImg)
             {
-                ImageModels.Add(new ImageModel { Data=Test.converterDemo((Image)index)});
+                ImageModels.Add(new ImageModel { Data = Test.converterDemo((Image)index) });
             }
             roomTypeModel.Images = ImageModels;
-
-
             using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
-            register.AddRoomType(roomTypeModel);
+            if (isUpdate != true)
+            {
+                register.AddRoomType(roomTypeModel);
+            }
+            else
+            {
+                foreach (var index in typeRoomsModelBinding.Images)
+                {
+                    ImageModels.Add(new ImageModel { Data = index.Data });
+                }
+                roomTypeModel.Id = typeRoomsModelBinding.Id;
+                if (roomTypeModel.Capacity != typeRoomsModelBinding.Capacity || roomTypeModel.Price != typeRoomsModelBinding.Price ||
+                    roomTypeModel.Description != typeRoomsModelBinding.Description || roomTypeModel.NumberOfRooms != typeRoomsModelBinding.NumberOfRooms ||
+                    roomTypeModel.RoomTitle != typeRoomsModelBinding.RoomTitle || roomTypeModel.Images.Count != typeRoomsModelBinding.Images.Count ||
+                    roomTypeModel.Features.Count != typeRoomsModelBinding.Features.Count)
+                {
+                    register.UpdateRoomType(roomTypeModel);
+                }
+            }
+            UnauthorizedClientModel firstPage = new UnauthorizedClientModel();
+            UnauthorizedClient firstPageModel = new UnauthorizedClient(UserModel.UserType.Admin);
+            firstPage.DataContext = firstPageModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = firstPage;
+            firstPage.Show();
         }
-
+        public int imageNumber = 0;
         public int ImageNumber
         {
             get
-            { 
-                return vectorImg.Count;
+            {
+                return imageNumber;
             }
-            
-           
+            set
+            {
+                imageNumber = value;
+                NotifyPropertyChanged("imageNumber");
+            }
+
         }
         public string PriceTextBox
         {
@@ -234,6 +311,27 @@ namespace Hotel.ViewModels
                 masinaDeSpalat = value;
                 NotifyPropertyChanged("MasinaDeSpalat");
             }
+        }
+        private ICommand BackCommand;
+        public ICommand Back
+        {
+            get
+            {
+                if (BackCommand == null)
+                {
+                    BackCommand = new RelayCommands(BackFunction);
+                }
+                return BackCommand;
+            }
+        }
+        public void BackFunction(object param)
+        {
+            UnauthorizedClientModel firstPage = new UnauthorizedClientModel();
+            UnauthorizedClient firstPageModel = new UnauthorizedClient(UserModel.UserType.Admin);
+            firstPage.DataContext = firstPageModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = firstPage;
+            firstPage.Show();
         }
     }
 }

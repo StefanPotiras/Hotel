@@ -24,7 +24,7 @@ namespace Hotel.ViewModel
             string descFinal="";
             foreach(var index in typeRoomsModelBinding.Features)
             {
-                descFinal += index+",";
+                descFinal += index.Name+",";
             }
             featuresR = descFinal;
 

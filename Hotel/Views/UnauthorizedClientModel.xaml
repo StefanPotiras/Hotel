@@ -45,7 +45,7 @@
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal" Grid.Column="0" >
-                            <Image Margin="3" Source="{Binding ImagesRoom[0]}"/>
+                            <Image Margin="3" Source="{Binding ImagesRoom[0]}" Height="100" Width="100"/>
                             <TextBlock Margin="3" Text="{Binding RoomTitleR}" FontSize="30"/>
 
                         </StackPanel>
@@ -64,8 +64,8 @@
                                 <TextBlock  Text="Pret/noapte:" FontSize="30"></TextBlock>
                                 <TextBlock     Text="{Binding PriceR}" FontSize="30"></TextBlock>
                             </StackPanel>
-                            <Button Content="Delete" Command="{Binding DeleteRoom}" Grid.Row="2" Width="60" CommandParameter="{Binding NrRoom}" Visibility="{Binding VisibilityAdmin, Converter={StaticResource BoolToVisibilityConverter}}"></Button>
-                            <Button Content="Modify" Command="{Binding ModifyRoom}" Grid.Row="2" Width="60" Margin="350 0 0 0" CommandParameter="{Binding NrRoom}"  Visibility="{Binding VisibilityAdmin, Converter={StaticResource BoolToVisibilityConverter}}"></Button>
+                            <Button Content="Delete" Command="{Binding DeleteRoom}" Grid.Row="2" Width="60" CommandParameter="{Binding IDR}" Visibility="{Binding VisibilityAdmin, Converter={StaticResource BoolToVisibilityConverter}}"></Button>
+                            <Button Content="Modify" Command="{Binding ModifyRoom}" Grid.Row="2" Width="60" Margin="350 0 0 0" CommandParameter="{Binding IDR}"  Visibility="{Binding VisibilityAdmin, Converter={StaticResource BoolToVisibilityConverter}}"></Button>
                         </Grid>
                     </Grid>
 

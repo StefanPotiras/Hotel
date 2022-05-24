@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Hotel.Views"
         xmlns:local1="clr-namespace:Hotel.Views"
-        xmlns:local2="clr-namespace:Hotel.Helps"      
+        xmlns:local2="clr-namespace:Hotel.Helps"        
         xmlns:ctx="clr-namespace:Hotel.ViewModels"
         mc:Ignorable="d"
         Title="ReservationsView" Height="450" Width="800">
@@ -15,15 +15,12 @@
     <Grid>
         <DataGrid Name="DG1" ItemsSource="{Binding ReservationsCurrent}" AutoGenerateColumns="False" Margin="50 50 50 50" >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="FirstName"  Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="SecondName"  Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Room number" Binding="{Binding RoomNumber}" />
-                <!--The Email property contains a URI.  For example "mailto:lucy0@adventure-works.com"-->
-                <DataGridTextColumn Header="Room type" Binding="{Binding CameraType}"  />
-                <DataGridTextColumn Header="Start Date" Binding="{Binding DateStart}" />
-                <DataGridTextColumn Header="End Date" Binding="{Binding DateStart}" />
-                <DataGridTextColumn Header="Price" Binding="{Binding DateStart}" />
-                <DataGridComboBoxColumn Header="Order Status"  SelectedItemBinding="{Binding ReservationsStatus, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Source={local2:BindindSourceExtension {x:Type local1:EnumClass }}}" />
+                <DataGridTextColumn Header="Username"  Binding="{Binding UsernameR}"/>
+                <!--The Email property contains a URI.  For example "mailto:lucy0@adventure-works.com"-->              
+                <DataGridTextColumn Header="Start Date" Binding="{Binding StartDateR}" />
+                <DataGridTextColumn Header="End Date" Binding="{Binding EndDateR}" />
+                <DataGridTextColumn Header="Price" Binding="{Binding PriceR}" />
+                <DataGridComboBoxColumn Header="Order Status"  SelectedItemBinding="{Binding StateR,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Source={local2:BindindSourceExtension {x:Type local1:ReservationState }}}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

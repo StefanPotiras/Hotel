@@ -114,7 +114,7 @@ namespace Server
                 .Include(roomType => roomType.Features)
                 .Include(roomType => roomType.Images)
                 .Include(roomType => roomType.Prices)
-                .Include(roomType => roomType.Rooms);
+                .Include(roomType => roomType.Rooms).Where(rt=>!rt.Deleted);
 
             foreach (RoomType roomTypeDb in roomTypesDb)
             {
@@ -253,9 +253,10 @@ namespace Server
             _context.SaveChanges();
         }
 
-        public ICollection<ReservationModel> GetAllReservations()
+        public ObservableCollection<ReservationModel> GetAllReservations()
         {
-            ICollection<ReservationModel> reservationModels = new List<ReservationModel>();
+            ObservableCollection<ReservationModel> reservationModels = new ObservableCollection<ReservationModel>();
+
 
             foreach (Reservation reservation in _context.Reservations
                 .Include(r => r.Rooms)
@@ -276,14 +277,14 @@ namespace Server
                 // ObservableCollection<RoomTypeNumberModel> roomTypes = new ObservableCollection<RoomTypeNumberModel>();
 
                 //foreach(RoomType roomType)
-
+                //string username = _context.Customers.Find(reservation.Id).Username;
                 reservationModels.Add(new ReservationModel
                 {
                     StartDate = reservation.StartDate,
                     EndDate = reservation.EndDate,
                     State = reservation.State,
                     UserId = reservation.Id,
-                    Username = _context.Customers.Find(reservation.Id).Username,
+                    //Username = username,
                     NumberOfRooms = reservation.Rooms.Count(),
                     Services = Convertor.EnumToObsCol(
                         reservation.ExtraServices.Select(serv => new ServicesModel

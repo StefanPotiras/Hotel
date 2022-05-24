@@ -17,12 +17,14 @@ namespace Hotel.ViewModels
 {
     public class UnauthorizedClient : NotifyViewModel
     {
-        private const string V = "C:\\Users\\StefanPotiras\\Desktop\\ImageTest\\img1.jpg";
+       
         ObservableCollection<TypeRoomsModelBinding> curentRooms = new ObservableCollection<TypeRoomsModelBinding>();
         public UnauthorizedClient()
         { }
+        public  UserModel.UserType funct;
         public UnauthorizedClient(UserModel.UserType useType)
-        {         
+        {
+            funct = useType;
             if (useType == UserModel.UserType.Admin)
             {
                 visibility = true;
@@ -205,7 +207,7 @@ namespace Hotel.ViewModels
         public void AddNewRoomFc(object buttonClicked)
         {
             AddNewRoomView firstPage = new AddNewRoomView();
-            AddNewRoomViewModel firstPageModel = new AddNewRoomViewModel();
+            AddNewRoomViewModel firstPageModel = new AddNewRoomViewModel(new TypeRoomsModelBinding(),false);
             firstPage.DataContext = firstPageModel;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = firstPage;
@@ -264,10 +266,13 @@ namespace Hotel.ViewModels
             }
         }
         public void DeleteFc(object buttonClicked)
-        {
-            using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
-            curentRooms = Helps.Convert.returnVector(register.GetAllRooms());
-
+        {           
+            UnauthorizedClientModel firstPage = new UnauthorizedClientModel();
+            UnauthorizedClient firstPageModel = new UnauthorizedClient(funct);
+            firstPage.DataContext = firstPageModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = firstPage;
+            firstPage.Show();
         }
     }
 }
