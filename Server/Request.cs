@@ -203,7 +203,7 @@ namespace Server
 
         public void DeleteRoomType(int roomTypeId)
         {
-            RoomType roomType = _context.RoomTypes.Find(roomTypeId);
+            RoomType roomType = _context.RoomTypes.Include(rt => rt.Rooms).Where(rt => rt.Id == roomTypeId).First();
 
             foreach (Room room in roomType.Rooms)
             {
