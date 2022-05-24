@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ModelsClasses
 {
-    class ReservationState
+    public enum ReservationState
     {
+        None, Active, Canceled, Paid
     }
 }

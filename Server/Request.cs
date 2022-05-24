@@ -32,7 +32,7 @@ namespace Server
             _context.Dispose();
         }
 
-
+        //tested
         public UserModel.UserType Login(string username, string password)
         {
             var users = _context.Users;
@@ -49,6 +49,7 @@ namespace Server
             return UserModel.UserType.None;
         }
 
+        //tested
         public bool Register(UserModel userModel)
         {
             var users = _context.Users;
@@ -104,6 +105,7 @@ namespace Server
             return false;
         }
 
+        //tested
         public ObservableCollection<RoomTypeModel> GetAllRooms()
         {
             ObservableCollection<RoomTypeModel> roomTypeModels = new ObservableCollection<RoomTypeModel>();
@@ -150,9 +152,43 @@ namespace Server
             return roomTypeModels;
         }
 
-        //public ObservableCollection<RoomTypeModel> GetRoomsByDate(DateTime startDate,DateTime endDate)
-        //{
+       
+        private int NrOfAvailableRooms(int RoomTypeId)
+        {
+            return _context.Rooms.Where(room => room.RoomType.Id == RoomTypeId
+            && room.Reservation.EndDate < DateTime.Now && room.Reservation.BeginDate < DateTime.Now).Count();
+        }
 
-        //}
+        
+        public ObservableCollection<RoomTypeModel> GetRoomsByDate(DateTime startDate, DateTime endDate)
+        {
+            var rooms = GetAllRooms();
+            foreach (RoomTypeModel roomTypeModel in rooms)
+            {
+                roomTypeModel.NumberOfRooms = NrOfAvailableRooms(roomTypeModel.Id);
+            }
+            return rooms.Where(room => room.NumberOfRooms > 0) as ObservableCollection<RoomTypeModel>;
+        }
+
+        
+        public void UpdateReservationStatus(int ReservationId, ReservationState state)
+        {
+            Reservation reservation = _context.Find<Reservation>(ReservationId);
+            reservation.State = state;
+            _context.SaveChanges();
+        }
+
+        public void DeleteRoom(int roomNo)
+        {
+            Room room = new Room { RoomNo = roomNo };
+            _context.Remove(room);
+            _context.SaveChanges();
+        }
+
+        public void AddService(ServicesModel servicesModel)
+        {
+            _context.Add(new ExtraService { Name = servicesModel.Name, Price = servicesModel.Price });
+            _context.SaveChanges();
+        }
     }
 }

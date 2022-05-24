@@ -15,5 +15,6 @@ namespace Server.Entities
 
         public RoomType RoomType { get; set; }
         public ICollection<ExtraService> ExtraServices { get;set;}
+        public Reservation Reservation { get; set; }
     }
 }
