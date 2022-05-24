@@ -185,6 +185,20 @@ namespace Server
             _context.SaveChanges();
         }
 
+        public void AddRoomType(RoomTypeModel roomTypeModel)
+        {
+            _context.Add(new RoomType
+            {
+                Description = roomTypeModel.Description,
+                BasePrice = roomTypeModel.Price,
+                Capacity = roomTypeModel.Capacity,
+                RoomTitle = roomTypeModel.RoomTitle,
+                Images = roomTypeModel.Images.Select(modelImage => new Image { Data = modelImage.Data }) as ICollection<Image>,
+                Features = roomTypeModel.Features.Select(featureModel => new Feature { Name = featureModel.Name }) as ICollection<Feature>
+            });
+            _context.SaveChanges();
+        }
+
         public void AddService(ServicesModel servicesModel)
         {
             _context.Add(new ExtraService { Name = servicesModel.Name, Price = servicesModel.Price });
