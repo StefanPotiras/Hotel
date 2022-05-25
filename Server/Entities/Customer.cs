@@ -10,5 +10,18 @@ namespace Server.Entities
     {
         public bool Deleted { get; set; }
         public ICollection<Reservation> Reservations { get; set; }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder(base.ToString());
+            sb.Append('\n' + "Reservations:");
+
+            foreach (Reservation reservation in Reservations)
+            {
+                sb.Append(reservation.ToString() + '\n');
+            }
+
+            return sb.ToString();
+        }
     }
 }

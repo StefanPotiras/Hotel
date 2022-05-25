@@ -14,5 +14,10 @@ namespace Server.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Password { get; set; }
+
+        public override string ToString()
+        {
+            return $"username: {Username}, firstname: {FirstName}, lastname:{LastName},password:{Password}";
+        }
     }
 }

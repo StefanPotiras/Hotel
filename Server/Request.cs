@@ -114,7 +114,7 @@ namespace Server
                 .Include(roomType => roomType.Features)
                 .Include(roomType => roomType.Images)
                 .Include(roomType => roomType.Prices)
-                .Include(roomType => roomType.Rooms).Where(rt=>!rt.Deleted);
+                .Include(roomType => roomType.Rooms).Where(rt => !rt.Deleted);
 
             foreach (RoomType roomTypeDb in roomTypesDb)
             {
@@ -152,21 +152,21 @@ namespace Server
             return roomTypeModels;
         }
 
-
-        private int NrOfAvailableRooms(int RoomTypeId, DateTime StartDate, DateTime EndDate)
+        //tested?
+        public int NrOfAvailableRooms(int RoomTypeId, DateTime StartDate, DateTime EndDate)
         {
             if (_context.RoomTypes.Find(RoomTypeId).Deleted) return 0;
 
             int UnavailableRooms = 0;
             int TotalRooms = _context.Rooms.Where(r => r.RoomType.Id == RoomTypeId).Count();
 
-            foreach (Reservation reservation in _context.Reservations)
+            foreach (Reservation reservation in _context.Reservations.Include(r => r.Rooms).ThenInclude(room => room.RoomType))
             {
                 foreach (Room room in reservation.Rooms)
                 {
                     if (room.RoomType.Id == RoomTypeId)
                     {
-                        if (reservation.StartDate < EndDate || reservation.EndDate > StartDate)
+                        if (!(reservation.EndDate <= StartDate || reservation.StartDate >= EndDate))
                         {
                             UnavailableRooms++;
                         }
@@ -177,7 +177,7 @@ namespace Server
             return TotalRooms - UnavailableRooms;
         }
 
-
+        //should owrk
         public ObservableCollection<RoomTypeModel> GetRoomsByDate(DateTime startDate, DateTime endDate)
         {
             var rooms = GetAllRooms();
@@ -188,14 +188,15 @@ namespace Server
             return Convertor.EnumToObsCol(rooms.Where(room => room.NumberOfRooms > 0));
         }
 
-
-        public void UpdateReservationStatus(int ReservationId, ReservationState state)
+        //probably fine
+        public void UpdateReservationStatus(int reservationId, ReservationState state)
         {
-            Reservation reservation = _context.Find<Reservation>(ReservationId);
+            Reservation reservation = _context.Reservations.SingleOrDefault(r => r.Id == reservationId);
             reservation.State = state;
             _context.SaveChanges();
         }
 
+        //i remember its fine
         public void DeleteRoom(int roomNo)
         {
             Room room = _context.Find<Room>(roomNo);
@@ -203,6 +204,7 @@ namespace Server
             _context.SaveChanges();
         }
 
+        //this worked
         public void DeleteRoomType(int roomTypeId)
         {
             RoomType roomType = _context.RoomTypes.Include(rt => rt.Rooms).Where(rt => rt.Id == roomTypeId).First();
@@ -247,6 +249,7 @@ namespace Server
             _context.SaveChanges();
         }
 
+        //cool
         public void AddService(ServicesModel servicesModel)
         {
             _context.Add(new ExtraService { Name = servicesModel.Name, Price = servicesModel.Price });
@@ -366,5 +369,6 @@ namespace Server
             });
             _context.SaveChanges();
         }
+
     }
 }

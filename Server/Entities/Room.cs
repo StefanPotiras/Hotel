@@ -14,7 +14,7 @@ namespace Server.Entities
         public bool Deleted { get; set; }
 
         public RoomType RoomType { get; set; }
-        public ICollection<ExtraService> ExtraServices { get;set;}
-        public Reservation Reservation { get; set; }
+        //public ICollection<Feature> ExtraServices { get;set;}
+        public ICollection<Reservation> Reservations { get; set; }
     }
 }

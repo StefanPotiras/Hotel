@@ -18,7 +18,6 @@ namespace Server.Entities
         public bool Deleted { get; set; }
         public int Capacity { get; set; }
 
-        public ICollection<Reservation> Reservations { get; set; }
         public ICollection<RoomPrice> Prices { get; set; }
         public ICollection <Room> Rooms { get; set; }
         public ICollection <Feature> Features { get; set; }
