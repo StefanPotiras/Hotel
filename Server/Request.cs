@@ -191,7 +191,7 @@ namespace Server
         //probably fine
         public void UpdateReservationStatus(int reservationId, ReservationState state)
         {
-            Reservation reservation = _context.Reservations.Include(t=>t.State).SingleOrDefault(r => r.Id == reservationId);
+            Reservation reservation = _context.Reservations.SingleOrDefault(r => r.Id == reservationId);
             reservation.State = state;
             _context.SaveChanges();
         }
@@ -264,7 +264,7 @@ namespace Server
 
 
             foreach (Reservation reservation in _context.Reservations
-                .Include(r=>r.Customer)
+                .Include(r => r.Customer)
                 .Include(r => r.ExtraServices)
                 .Include(r => r.Rooms)
                 .ThenInclude(room => room.RoomType))
@@ -285,7 +285,8 @@ namespace Server
                 //foreach(RoomType roomType)
                 //string username = _context.Customers.Find(reservation.Id).Username;
                 reservationModels.Add(new ReservationModel
-                {    IdReserv=reservation.Id,
+                {
+                    IdReserv = reservation.Id,
                     StartDate = reservation.StartDate,
                     EndDate = reservation.EndDate,
                     State = reservation.State,
@@ -317,37 +318,62 @@ namespace Server
         {
             var rooms = _context.Rooms.Where(r => r.RoomType.Id == roomTypeModel.Id);
 
+
             RoomType updatedRoomType = new RoomType
             {
-                BasePrice = roomTypeModel.Price,
-                Capacity = roomTypeModel.Capacity,
-                Description = roomTypeModel.Description,
-                Images = Convertor.EnumToCol(roomTypeModel.Images.Select(img => new Image { Data = img.Data })),
-                RoomTitle = roomTypeModel.RoomTitle,
-                Features = Convertor.EnumToCol(roomTypeModel.Features.Select(f => new Feature { Name = f.Name })),
+                Id = roomTypeModel.Id,
+                //BasePrice = roomTypeModel.Price,
+                //Capacity = roomTypeModel.Capacity,
+                //Description = roomTypeModel.Description,
+                //Images = Convertor.EnumToCol(roomTypeModel.Images.Select(img => new Image { Data = img.Data })),
+                //RoomTitle = roomTypeModel.RoomTitle,
+                //Features = Convertor.EnumToCol(roomTypeModel.Features.Select(f => new Feature { Name = f.Name })),
             };
-            _context.Update(updatedRoomType);
+            //_context.Update(updatedRoomType);
+
+
 
             if (roomTypeModel.NumberOfRooms < rooms.Count())
             {
-                var itr = rooms.GetEnumerator();
+                int nrOfDeletedRooms = 0;
 
-                for (int i = 0; i < rooms.Count() - roomTypeModel.NumberOfRooms; i++)
+                int count = rooms.Count();
+
+                foreach (Room room in rooms)
                 {
-                    itr.MoveNext();
-                    itr.Current.Deleted = true;
-                }
+                    if (nrOfDeletedRooms == count - roomTypeModel.NumberOfRooms) break;
 
+                    if (!room.Deleted)
+                    {
+                        room.Deleted = true;
+                        nrOfDeletedRooms++;
+                    }
+                }
             }
+
             else if (roomTypeModel.NumberOfRooms > rooms.Count())
             {
-                for (int i = 0; i < -rooms.Count() + roomTypeModel.NumberOfRooms; i++)
-                {
-                    _context.Rooms.Add(new Room { RoomType = updatedRoomType });
-                }
-            }
+                int count = rooms.Count();
+                ICollection<Room> roomsToAdd = new List<Room>();
 
+                for (int i = 0; i < roomTypeModel.NumberOfRooms - count; i++)
+                {
+                    roomsToAdd.Add(new Room { RoomType = updatedRoomType });
+                }
+                _context.Rooms.AddRange(roomsToAdd);
+
+            }
             _context.SaveChanges();
+        }
+
+        public ObservableCollection<ServicesModel> GetServices()
+        {
+            return Convertor.EnumToObsCol(_context.ExtraServices.Select(s => new ServicesModel
+            {
+                Name = s.Name,
+                Price = s.Price,
+                Id = s.Id
+            }));
         }
 
         //idk
