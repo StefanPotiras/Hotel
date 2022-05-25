@@ -316,30 +316,29 @@ namespace Server
         //nope
         public void UpdateRoomType(RoomTypeModel roomTypeModel)
         {
-            var rooms = _context.Rooms.Where(r => r.RoomType.Id == roomTypeModel.Id);
+            var allRooms = _context.Rooms;
+            var filteredRooms = allRooms.Where(r => r.RoomType.Id == roomTypeModel.Id);
+
+            Console.WriteLine(filteredRooms is DbSet<Room>);
+
+            RoomType updatedRoomType = _context.RoomTypes.SingleOrDefault(rt => rt.Id == roomTypeModel.Id);
+
+            updatedRoomType.BasePrice = roomTypeModel.Price;
+            updatedRoomType.Capacity = roomTypeModel.Capacity;
+            updatedRoomType.Description = roomTypeModel.Description;
+            updatedRoomType.Images = Convertor.EnumToCol(roomTypeModel.Images.Select(img => new Image { Data = img.Data }));
+            updatedRoomType.RoomTitle = roomTypeModel.RoomTitle;
+            updatedRoomType.Features = Convertor.EnumToCol(roomTypeModel.Features.Select(f => new Feature { Name = f.Name }));
 
 
-            RoomType updatedRoomType = new RoomType
-            {
-                Id = roomTypeModel.Id,
-                //BasePrice = roomTypeModel.Price,
-                //Capacity = roomTypeModel.Capacity,
-                //Description = roomTypeModel.Description,
-                //Images = Convertor.EnumToCol(roomTypeModel.Images.Select(img => new Image { Data = img.Data })),
-                //RoomTitle = roomTypeModel.RoomTitle,
-                //Features = Convertor.EnumToCol(roomTypeModel.Features.Select(f => new Feature { Name = f.Name })),
-            };
-            //_context.Update(updatedRoomType);
 
-
-
-            if (roomTypeModel.NumberOfRooms < rooms.Count())
+            if (roomTypeModel.NumberOfRooms < filteredRooms.Count())
             {
                 int nrOfDeletedRooms = 0;
 
-                int count = rooms.Count();
+                int count = filteredRooms.Count();
 
-                foreach (Room room in rooms)
+                foreach (Room room in filteredRooms)
                 {
                     if (nrOfDeletedRooms == count - roomTypeModel.NumberOfRooms) break;
 
@@ -350,17 +349,16 @@ namespace Server
                     }
                 }
             }
-
-            else if (roomTypeModel.NumberOfRooms > rooms.Count())
+            else if (roomTypeModel.NumberOfRooms > filteredRooms.Count())
             {
-                int count = rooms.Count();
+                int count = filteredRooms.Count();
                 ICollection<Room> roomsToAdd = new List<Room>();
 
                 for (int i = 0; i < roomTypeModel.NumberOfRooms - count; i++)
                 {
                     roomsToAdd.Add(new Room { RoomType = updatedRoomType });
                 }
-                _context.Rooms.AddRange(roomsToAdd);
+                allRooms.AddRange(roomsToAdd);
 
             }
             _context.SaveChanges();
