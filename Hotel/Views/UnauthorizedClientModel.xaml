@@ -78,6 +78,8 @@
         <Button Grid.Row="3" Width="200" Height="50" FontSize="25" Margin="0 0 800 0"  Command="{Binding AddRoom}"  Visibility="{Binding VisibilityAdmin, Converter={StaticResource BoolToVisibilityConverter}}">Add Room</Button>
         <Button Grid.Row="3" Width="200" Height="50" FontSize="25" Margin="800 0 0 0"  Command="{Binding AddServices}"  Visibility="{Binding VisibilityAdmin, Converter={StaticResource BoolToVisibilityConverter}}">Add Services</Button>
         <Button Grid.Row="3" Width="200" Height="50" FontSize="25" Margin="0 0 800 0"  Command="{Binding SeeRoomReserv}"  Visibility="{Binding VisibilityClient, Converter={StaticResource BoolToVisibilityConverter}}">See Rooms</Button>
-        <Label Grid.Row="3" Width="200" Height="50" FontSize="25" Margin="800 0 0 0"   Visibility="{Binding VisibilityClient, Converter={StaticResource BoolToVisibilityConverter}}">NrRooms:</Label>
+        <Label Grid.Row="3" Width="200" Height="50" FontSize="25" Margin="750 0 0 0"   Visibility="{Binding VisibilityClient, Converter={StaticResource BoolToVisibilityConverter}}">NrRooms:</Label>
+
+        <Label Grid.Row="3" Width="200" Height="50" FontSize="25" Margin="1000 0 0 0"   Visibility="{Binding VisibilityClient, Converter={StaticResource BoolToVisibilityConverter}}" Content="{Binding NrRoomsInRev}"></Label>
     </Grid>
 </Window>

@@ -21,7 +21,7 @@ namespace ModelsClasses
         public ReservationState State { get; set; }
         public int NumberOfRooms { get; set; }
         public ObservableCollection<ServicesModel> Services { get; set; }
-        public ObservableCollection<RoomTypeNumberModel> AllRoomsWithType { get; set; }
+        public ObservableCollection<RoomTypeNumberModel> AllRoomsWithType =  new ObservableCollection<RoomTypeNumberModel>();
 
 
 

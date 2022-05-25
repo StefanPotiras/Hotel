@@ -40,7 +40,7 @@ namespace Hotel.Helps
             string indexRoom = buttonClicked.ToString();
                     
             ChangeStateView firstPage = new ChangeStateView();
-            ChangeStateViewModel firstPageModel = new ChangeStateViewModel(Int32.Parse(indexRoom),State,userType);
+            ChangeStateViewModel firstPageModel = new ChangeStateViewModel(IdReserv, State,userType);
             firstPage.DataContext = firstPageModel;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = firstPage;

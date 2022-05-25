@@ -156,15 +156,15 @@ namespace Hotel.ViewModels
             roomTypeModel.RoomTitle = SelectedType;
             roomTypeModel.Price = Decimal.Parse(PriceTextBox);
             ObservableCollection<FeatureModel> Features = new ObservableCollection<FeatureModel>();
-            if (!gratar)
+            if (gratar)
                 Features.Add(new FeatureModel { Name = "Gratar" });
-            if (!foisor)
+            if (foisor)
                 Features.Add(new FeatureModel { Name = "Foisor" });
-            if (!balcon)
+            if (balcon)
                 Features.Add(new FeatureModel { Name = "Balcon" });
-            if (!masinaDeSpalat)
+            if (masinaDeSpalat)
                 Features.Add(new FeatureModel { Name = "MasinaDeSpalat" });
-            if (!Bucatarie)
+            if (Bucatarie)
                 Features.Add(new FeatureModel { Name = "Bucatarie" });
 
             roomTypeModel.Features = Features;

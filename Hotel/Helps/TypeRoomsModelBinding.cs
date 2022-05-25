@@ -57,9 +57,9 @@ namespace Hotel.Helps
         public void AddRoomInReservFc(object buttonClicked)
         {
             string indexRoom = buttonClicked.ToString();         
-            ObservableCollection<TypeRoomsModelBinding> curentRooms2 = new ObservableCollection<TypeRoomsModelBinding>();
+         
             UnauthorizedClientModel firstPage = new UnauthorizedClientModel();
-            UnauthorizedClient firstPageModel = new UnauthorizedClient(UserModel.UserType.Customer, curentRooms2);
+            UnauthorizedClient firstPageModel = new UnauthorizedClient(UserModel.UserType.Customer,indexCamera:Int32.Parse(indexRoom),StartDate1:DateStart,EndDate2:DateEnd,isAdd:true,reservationModel2:reservationModel);
             firstPage.DataContext = firstPageModel;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = firstPage;
@@ -67,7 +67,7 @@ namespace Hotel.Helps
         }
 
 
-
+      
 
 
         private ICommand DeleteRoomCommand;

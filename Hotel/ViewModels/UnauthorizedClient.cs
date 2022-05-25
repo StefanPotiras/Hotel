@@ -25,20 +25,65 @@ namespace Hotel.ViewModels
         public ReservationModel reservationModel = new ReservationModel();
         public UnauthorizedClient(UserModel.UserType useType, ObservableCollection<TypeRoomsModelBinding> curentRooms2 = null,
           bool isFilter = false, DateTime StartDate1 = new DateTime(), DateTime EndDate2 = new DateTime(),
-          bool isAdd = false, int indexCamera = -1,int idUser=-1, ReservationModel reservationModel=null)
+          bool isAdd = false, int indexCamera = -1,string username="", ReservationModel reservationModel2=null)
         {
-            if(isAdd)
+            
+            if (isAdd)
             {
                 using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
                 curentRooms = Helps.Convert.returnVector(register.GetRoomsByDate(StartDate1, EndDate2));
-                this.reservationModel = reservationModel;
+
+                decimal price = 0;
+                foreach(var index in curentRooms)
+                {
+                    if(index.Id==indexCamera)
+                    {
+                        price = index.Price;
+                    }
+                }
+
+
+                reservationModel = reservationModel2;
+                reservationModel.EndDate = EndDate2;
+                reservationModel.StartDate = StartDate1;
+                reservationModel.Username = username;
+                if (reservationModel.AllRoomsWithType.Count > 0)
+                {
+                    bool ok = false;
+                    foreach (var index in reservationModel.AllRoomsWithType)
+                    {
+                        if (index.RoomTypeId == indexCamera)
+                        {
+                            ok = true;
+                            index.NumberOfTypeRooms = index.NumberOfTypeRooms + 1;
+                            reservationModel.Price += price;
+                        }
+                    }
+                    if (ok == false)
+                    {
+                        reservationModel.AllRoomsWithType.Add(new RoomTypeNumberModel(indexCamera, 1));
+                        reservationModel.Price += price;
+                    }
+                }
+                else
+                {
+                    reservationModel.AllRoomsWithType.Add(new RoomTypeNumberModel(indexCamera, 1));
+                    reservationModel.Price = price;
+                }
+
+
+                
+               
+              
+                //reservationModel.AllRoomsWithType.Add(new RoomTypeNumberModel(indexCamera, reservationModel.AllRoomsWithType.Count+1));
+                
             }
             if (isFilter)
             {
                 curentRooms = curentRooms2;
                 Helps.Convert.setTrue2(ref curentRooms);
             }
-            else
+            else if(!isAdd)
             {
                 using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
                 curentRooms = Helps.Convert.returnVector(register.GetAllRooms());
@@ -59,6 +104,7 @@ namespace Hotel.ViewModels
             else if (useType == UserModel.UserType.Customer)
             {
                 visibility = true;
+                Helps.Convert.setTrue2(ref curentRooms);
                 visibilityAdmin = false;
                 visibilityClient = true;
             }
@@ -68,7 +114,19 @@ namespace Hotel.ViewModels
                 visibilityAdmin = false;
             }
 
-
+            foreach(var index in curentRooms)
+            {
+                index.DateStart = StartDate1;
+                index.DateEnd = EndDate2;
+                index.reservationModel = reservationModel;
+            }
+            nrRoomsInRev = reservationModel.AllRoomsWithType.Count;
+            foreach (var index in reservationModel.AllRoomsWithType)
+            {
+                if (index.NumberOfTypeRooms > 1)
+                    nrRoomsInRev = nrRoomsInRev + index.NumberOfTypeRooms - 1;
+            }
+           
         }
         public ICommand AddReservCommand;
         public ICommand AddReserv
@@ -153,7 +211,21 @@ namespace Hotel.ViewModels
                 NotifyPropertyChanged("VisibilityClient");
             }
         }
+        //NrRoomsInRev
 
+        private int nrRoomsInRev ;
+        public int NrRoomsInRev
+        {
+            get
+            {
+                return nrRoomsInRev;
+            }
+            set
+            {
+                nrRoomsInRev = value;
+                NotifyPropertyChanged("NrRoomsInRev");
+            }
+        }
         private bool visibilityAdmin = false;
         public bool VisibilityAdmin
         {

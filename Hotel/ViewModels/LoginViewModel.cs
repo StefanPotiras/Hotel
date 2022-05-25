@@ -92,9 +92,18 @@ namespace Hotel.ViewModels
             {
                 using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
                 UserModel.UserType userType= register.Login(usernameTextBox,passwordTextBox);
-                if (userType!=UserModel.UserType.None)
+                if (userType!=UserModel.UserType.None && userType != UserModel.UserType.Customer)
                 { UnauthorizedClientModel firstPage = new UnauthorizedClientModel();
                     UnauthorizedClient firstPageModel = new UnauthorizedClient(userType);
+                    firstPage.DataContext = firstPageModel;
+                    App.Current.MainWindow.Close();
+                    App.Current.MainWindow = firstPage;
+                    firstPage.Show();
+                }
+                else if(userType == UserModel.UserType.Customer)
+                {
+                    UnauthorizedClientModel firstPage = new UnauthorizedClientModel();
+                    UnauthorizedClient firstPageModel = new UnauthorizedClient(userType,username:UsernameTextBox);
                     firstPage.DataContext = firstPageModel;
                     App.Current.MainWindow.Close();
                     App.Current.MainWindow = firstPage;

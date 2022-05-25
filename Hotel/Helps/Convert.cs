@@ -37,6 +37,7 @@ namespace Hotel.Helps
             {
                 ReservationsViewModelBind variab = new ReservationsViewModelBind();
                 variab.Username = index.Username;
+                variab.IdReserv = index.IdReserv;
                 variab.UserId = index.UserId;
                 variab.Price = index.Price;
                 variab.StartDate = index.StartDate;
