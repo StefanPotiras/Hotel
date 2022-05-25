@@ -256,15 +256,18 @@ namespace Server
             _context.SaveChanges();
         }
 
+
+        //works
         public ObservableCollection<ReservationModel> GetAllReservations()
         {
             ObservableCollection<ReservationModel> reservationModels = new ObservableCollection<ReservationModel>();
 
 
             foreach (Reservation reservation in _context.Reservations
+                .Include(r=>r.Customer)
+                .Include(r => r.ExtraServices)
                 .Include(r => r.Rooms)
-                .ThenInclude(room => room.RoomType)
-                .Include(r => r.ExtraServices))
+                .ThenInclude(room => room.RoomType))
             {
                 decimal price = 0;
 
@@ -286,8 +289,8 @@ namespace Server
                     StartDate = reservation.StartDate,
                     EndDate = reservation.EndDate,
                     State = reservation.State,
-                    UserId = reservation.Id,
-                    //Username = username,
+                    UserId = reservation.Customer.Id, //no
+                    Username = reservation.Customer.Username,
                     NumberOfRooms = reservation.Rooms.Count(),
                     Services = Convertor.EnumToObsCol(
                         reservation.ExtraServices.Select(serv => new ServicesModel
@@ -303,11 +306,13 @@ namespace Server
             return reservationModels;
         }
 
-        public ICollection<ReservationModel> GetReservationsForCustomer(int customerId)
+        //just fine
+        public ObservableCollection<ReservationModel> GetReservationsForCustomer(int customerId)
         {
-            return Convertor.EnumToCol(GetAllReservations().Where(r => r.UserId == customerId));
+            return Convertor.EnumToObsCol(GetAllReservations().Where(r => r.UserId == customerId));
         }
 
+        //nope
         public void UpdateRoomType(RoomTypeModel roomTypeModel)
         {
             var rooms = _context.Rooms.Where(r => r.RoomType.Id == roomTypeModel.Id);
@@ -345,6 +350,7 @@ namespace Server
             _context.SaveChanges();
         }
 
+        //idk
         public void AddReservation(ReservationModel reservationModel)
         {
             ICollection<Room> rooms = new List<Room>();
