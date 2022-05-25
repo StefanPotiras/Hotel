@@ -17,32 +17,81 @@ namespace Hotel.ViewModels
 {
     public class UnauthorizedClient : NotifyViewModel
     {
-       
+
         ObservableCollection<TypeRoomsModelBinding> curentRooms = new ObservableCollection<TypeRoomsModelBinding>();
         public UnauthorizedClient()
         { }
-        public  UserModel.UserType funct;
-        public UnauthorizedClient(UserModel.UserType useType)
+        public UserModel.UserType funct;
+        public ReservationModel reservationModel = new ReservationModel();
+        public UnauthorizedClient(UserModel.UserType useType, ObservableCollection<TypeRoomsModelBinding> curentRooms2 = null,
+          bool isFilter = false, DateTime StartDate1 = new DateTime(), DateTime EndDate2 = new DateTime(),
+          bool isAdd = false, int indexCamera = -1,int idUser=-1, ReservationModel reservationModel=null)
         {
+            if(isAdd)
+            {
+                using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
+                curentRooms = Helps.Convert.returnVector(register.GetRoomsByDate(StartDate1, EndDate2));
+                this.reservationModel = reservationModel;
+            }
+            if (isFilter)
+            {
+                curentRooms = curentRooms2;
+                Helps.Convert.setTrue2(ref curentRooms);
+            }
+            else
+            {
+                using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
+                curentRooms = Helps.Convert.returnVector(register.GetAllRooms());
+            }
             funct = useType;
             if (useType == UserModel.UserType.Admin)
             {
+                Helps.Convert.setTrue(ref curentRooms);
                 visibility = true;
                 visibilityAdmin = true;
+
             }
             else if (useType == UserModel.UserType.Employee)
             {
                 visibility = true;
                 visibilityAdmin = false;
             }
-            else if(useType == UserModel.UserType.Customer)
+            else if (useType == UserModel.UserType.Customer)
             {
-
+                visibility = true;
+                visibilityAdmin = false;
+                visibilityClient = true;
             }
-            using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
-            curentRooms = Helps.Convert.returnVector(register.GetAllRooms());
-        }
+            else
+            {
+                visibility = false;
+                visibilityAdmin = false;
+            }
 
+
+        }
+        public ICommand AddReservCommand;
+        public ICommand AddReserv
+        {
+            get
+            {
+                if (AddReservCommand == null)
+                {
+                    AddReservCommand = new RelayCommands(ReservFunct);
+                }
+                return AddReservCommand;
+            }
+        }
+        public void ReservFunct(object param)
+        {
+            MainWindow firstPage = new MainWindow();
+            FirstPageViewModel firstPageModel = new FirstPageViewModel();
+            firstPage.DataContext = firstPageModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = firstPage;
+            firstPage.Show();
+
+        }
         public ObservableCollection<TypeRoomsModelBinding> HotelsCurrent
         {
             get
@@ -91,6 +140,20 @@ namespace Hotel.ViewModels
                 NotifyPropertyChanged("Visibility");
             }
         }
+        private bool visibilityClient = false;
+        public bool VisibilityClient
+        {
+            get
+            {
+                return visibilityClient;
+            }
+            set
+            {
+                visibilityClient = value;
+                NotifyPropertyChanged("VisibilityClient");
+            }
+        }
+
         private bool visibilityAdmin = false;
         public bool VisibilityAdmin
         {
@@ -142,7 +205,7 @@ namespace Hotel.ViewModels
         public void ReservationsFunction(object param)
         {
             ReservationsView loginWindow = new ReservationsView();
-            ReservationsViewModel loginVM = new ReservationsViewModel();
+            ReservationsViewModel loginVM = new ReservationsViewModel(funct);
             loginWindow.DataContext = loginVM;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = loginWindow;
@@ -184,7 +247,7 @@ namespace Hotel.ViewModels
         }
         public void DeleteRoomFc(object buttonClicked)
         {
-            string indexRoom= (buttonClicked as Button).Content.ToString();
+            string indexRoom = (buttonClicked as Button).Content.ToString();
             MainWindow firstPage = new MainWindow();
             FirstPageViewModel firstPageModel = new FirstPageViewModel();
             firstPage.DataContext = firstPageModel;
@@ -207,7 +270,7 @@ namespace Hotel.ViewModels
         public void AddNewRoomFc(object buttonClicked)
         {
             AddNewRoomView firstPage = new AddNewRoomView();
-            AddNewRoomViewModel firstPageModel = new AddNewRoomViewModel(new TypeRoomsModelBinding(),false);
+            AddNewRoomViewModel firstPageModel = new AddNewRoomViewModel(new TypeRoomsModelBinding(), false);
             firstPage.DataContext = firstPageModel;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = firstPage;
@@ -250,8 +313,18 @@ namespace Hotel.ViewModels
         public void SearchFc(object buttonClicked)
         {
             using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
-            curentRooms = Helps.Convert.returnVector( register.GetRoomsByDate(StartDate,EndDate));
-
+            curentRooms = Helps.Convert.returnVector(register.GetRoomsByDate(StartDate, EndDate));
+            foreach (var index in curentRooms)
+            {
+                index.DateEnd = EndDate;
+                index.DateStart = StartDate;
+            }
+            UnauthorizedClientModel firstPage = new UnauthorizedClientModel();
+            UnauthorizedClient firstPageModel = new UnauthorizedClient(funct, curentRooms, true);
+            firstPage.DataContext = firstPageModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = firstPage;
+            firstPage.Show();
         }
         private ICommand DeleteFilterCommand;
         public ICommand DeleteFilter
@@ -266,9 +339,9 @@ namespace Hotel.ViewModels
             }
         }
         public void DeleteFc(object buttonClicked)
-        {           
+        {
             UnauthorizedClientModel firstPage = new UnauthorizedClientModel();
-            UnauthorizedClient firstPageModel = new UnauthorizedClient(funct);
+            UnauthorizedClient firstPageModel = new UnauthorizedClient(funct, curentRooms, false);
             firstPage.DataContext = firstPageModel;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = firstPage;

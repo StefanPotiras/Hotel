@@ -40,6 +40,36 @@ namespace Hotel.Helps
                 allImages.Add(Test.ToImage(index.Data));
             }
         }
+        //AddRoomInReserv
+
+        private ICommand AddRoomInReservComm;
+        public ICommand AddRoomInReserv
+        {
+            get
+            {
+                if (AddRoomInReservComm == null)
+                {
+                    AddRoomInReservComm = new RelayCommands(AddRoomInReservFc);
+                }
+                return AddRoomInReservComm;
+            }
+        }
+        public void AddRoomInReservFc(object buttonClicked)
+        {
+            string indexRoom = buttonClicked.ToString();         
+            ObservableCollection<TypeRoomsModelBinding> curentRooms2 = new ObservableCollection<TypeRoomsModelBinding>();
+            UnauthorizedClientModel firstPage = new UnauthorizedClientModel();
+            UnauthorizedClient firstPageModel = new UnauthorizedClient(UserModel.UserType.Customer, curentRooms2);
+            firstPage.DataContext = firstPageModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = firstPage;
+            firstPage.Show();
+        }
+
+
+
+
+
         private ICommand DeleteRoomCommand;
         public ICommand DeleteRoom
         {
@@ -57,9 +87,9 @@ namespace Hotel.Helps
             string indexRoom = buttonClicked.ToString();
             using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
             register.DeleteRoomType(Int32.Parse(indexRoom));
-
+            ObservableCollection<TypeRoomsModelBinding> curentRooms2=new ObservableCollection<TypeRoomsModelBinding>();
             UnauthorizedClientModel firstPage = new UnauthorizedClientModel();
-            UnauthorizedClient firstPageModel = new UnauthorizedClient(UserModel.UserType.Admin);
+            UnauthorizedClient firstPageModel = new UnauthorizedClient(UserModel.UserType.Admin, curentRooms2);
             firstPage.DataContext = firstPageModel;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = firstPage;
@@ -176,7 +206,9 @@ namespace Hotel.Helps
                 NotifyPropertyChanged("RoomTitle");
             }
         }
-     
+        public DateTime DateStart;
+        public DateTime DateEnd;
+       
         public int NumberOfRoomsR
         {
             get
@@ -202,8 +234,24 @@ namespace Hotel.Helps
                 NotifyPropertyChanged("Features");
             }
         }
-      
-       
+
+        public ReservationModel reservationModel;
+
+        public ReservationModel ReservationModelPac
+        {
+            get
+            {
+                return reservationModel;
+            }
+            set
+            {
+                reservationModel = value;
+                NotifyPropertyChanged("ReservationModelPac");
+            }
+        }
+
+
+
         public ObservableCollection<ImageModel> ImagesR
         {
             get
@@ -214,6 +262,34 @@ namespace Hotel.Helps
             {
                 Images = value;
                 NotifyPropertyChanged("Images");
+            }
+        }
+
+        public  bool visibilityAdmin = false;
+        public bool VisibilityAdmin
+        {
+            get
+            {
+                return visibilityAdmin;
+            }
+            set
+            {
+                visibilityAdmin = value;
+                NotifyPropertyChanged("visibilityAdmin");
+            }
+        }
+
+        public bool visibilityClient = false;
+        public bool VisibilityClient
+        {
+            get
+            {
+                return visibilityClient;
+            }
+            set
+            {
+                visibilityClient = value;
+                NotifyPropertyChanged("VisibilityClient");
             }
         }
     }

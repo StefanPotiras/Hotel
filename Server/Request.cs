@@ -191,7 +191,7 @@ namespace Server
         //probably fine
         public void UpdateReservationStatus(int reservationId, ReservationState state)
         {
-            Reservation reservation = _context.Reservations.SingleOrDefault(r => r.Id == reservationId);
+            Reservation reservation = _context.Reservations.Include(t=>t.State).SingleOrDefault(r => r.Id == reservationId);
             reservation.State = state;
             _context.SaveChanges();
         }
@@ -285,7 +285,7 @@ namespace Server
                 //foreach(RoomType roomType)
                 //string username = _context.Customers.Find(reservation.Id).Username;
                 reservationModels.Add(new ReservationModel
-                {
+                {    IdReserv=reservation.Id,
                     StartDate = reservation.StartDate,
                     EndDate = reservation.EndDate,
                     State = reservation.State,

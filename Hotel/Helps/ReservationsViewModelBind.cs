@@ -1,10 +1,14 @@
-﻿using ModelsClasses;
+﻿using Hotel.Models;
+using Hotel.ViewModels;
+using Hotel.Views;
+using ModelsClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Hotel.Helps
 {
@@ -18,8 +22,42 @@ namespace Hotel.Helps
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-
-        
+        private ICommand ChangeCommand;
+        public ICommand Change
+        {
+            get
+            {
+                if (ChangeCommand == null)
+                {
+                    ChangeCommand = new RelayCommands(ChangeFc);
+                }
+                return ChangeCommand;
+            }
+        }
+        public UserModel.UserType userType;
+        public void ChangeFc(object buttonClicked)
+        {
+            string indexRoom = buttonClicked.ToString();
+                    
+            ChangeStateView firstPage = new ChangeStateView();
+            ChangeStateViewModel firstPageModel = new ChangeStateViewModel(Int32.Parse(indexRoom),State,userType);
+            firstPage.DataContext = firstPageModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = firstPage;
+            firstPage.Show();
+        }
+        public int IdR
+        {
+            get
+            {
+                return IdReserv;
+            }
+            set
+            {
+                IdReserv = value;
+                NotifyPropertyChanged("UserId");
+            }
+        }
         public string UsernameR
         {
             get
@@ -29,7 +67,7 @@ namespace Hotel.Helps
             set
             {
                 Username = value;
-                NotifyPropertyChanged("ID");
+                NotifyPropertyChanged("Username");
             }
         }
         public decimal PriceR
@@ -48,7 +86,7 @@ namespace Hotel.Helps
         {
             get
             {
-                return StartDate.ToString();
+                return StartDate.Date.ToString();
             }
             set
             {
@@ -60,7 +98,7 @@ namespace Hotel.Helps
         {
             get
             {
-                return EndDate.ToString();
+                return EndDate.Date.ToString();
             }
             set
             {
@@ -69,7 +107,7 @@ namespace Hotel.Helps
             }
         }
 
-        public ReservationState StateR
+        public ModelsClasses.ReservationState StateR
         {
             get
             {

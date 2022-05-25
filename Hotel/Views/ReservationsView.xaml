@@ -8,20 +8,53 @@
         xmlns:local2="clr-namespace:Hotel.Helps"        
         xmlns:ctx="clr-namespace:Hotel.ViewModels"
         mc:Ignorable="d"
-        Title="ReservationsView" Height="450" Width="800">
+        Title="ReservationsView" Height="800" Width="880">
     <Window.DataContext>
         <ctx:ReservationsViewModel/>
     </Window.DataContext>
     <Grid>
-        <DataGrid Name="DG1" ItemsSource="{Binding ReservationsCurrent}" AutoGenerateColumns="False" Margin="50 50 50 50" >
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Username"  Binding="{Binding UsernameR}"/>
-                <!--The Email property contains a URI.  For example "mailto:lucy0@adventure-works.com"-->              
-                <DataGridTextColumn Header="Start Date" Binding="{Binding StartDateR}" />
-                <DataGridTextColumn Header="End Date" Binding="{Binding EndDateR}" />
-                <DataGridTextColumn Header="Price" Binding="{Binding PriceR}" />
-                <DataGridComboBoxColumn Header="Order Status"  SelectedItemBinding="{Binding StateR,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Source={local2:BindindSourceExtension {x:Type local1:ReservationState }}}" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <Button Width="80" Height="30" Content="Back" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20" Command="{Binding Back}"></Button>
+        <ListBox x:Name="listBox" Margin="40,60,40,0"  AllowDrop="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding ReservationsCurrent}">
+            <ListBox.ItemTemplate >
+                <DataTemplate >
+                    <Border BorderBrush="Black" BorderThickness="2">
+                        <Grid Margin="20 20 20 20" Width="700" HorizontalAlignment="Center" VerticalAlignment="Center"   >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Column="0" Grid.Row="0" Content="Username:" BorderBrush="Black" BorderThickness="1 1 0 1" HorizontalContentAlignment="Right"></Label>
+                            <Label Grid.Column="1" Grid.Row="0" Content="{Binding UsernameR}" BorderBrush="Black" BorderThickness="0 1 1 1" HorizontalContentAlignment="Left"></Label>
+
+                            <Label Grid.Column="4" Grid.Row="0" Content="Price:"  HorizontalContentAlignment="Right" BorderThickness="0 1 0 1"  BorderBrush="Black" ></Label>
+                            <Label Grid.Column="5" Grid.Row="0" Content="{Binding PriceR}" BorderBrush="Black" BorderThickness="0 1 1 1" HorizontalContentAlignment="Left"></Label>
+
+                            <Label Grid.Column="2" Grid.Row="0" Content="StartDate:"  HorizontalContentAlignment="Right" BorderThickness="0 1 0 1"  BorderBrush="Black"></Label>
+                            <Label Grid.Column="3" Grid.Row="0" Content="{Binding StartDateR}" BorderBrush="Black" BorderThickness="0 1 1 1" HorizontalContentAlignment="Left"></Label>
+
+                            <Label Grid.Column="2" Grid.Row="1" Content="EndDate:"  HorizontalContentAlignment="Right" BorderBrush="Black" BorderThickness="0 0 0 1"></Label>
+                            <Label Grid.Column="3" Grid.Row="2" Content="{Binding EndDateR}" BorderBrush="Black" BorderThickness="0 0 1 1" HorizontalContentAlignment="Left"></Label>
+
+                            <Label Grid.Column="0" Grid.Row="1" Content="NrOfRooms:"  HorizontalContentAlignment="Right" BorderBrush="Black"  BorderThickness="1 0 0 1" ></Label>
+                            <Label Grid.Column="1" Grid.Row="1" Content="{Binding NumberOfRoomsR}" BorderBrush="Black" BorderThickness="0 0 1 1"  HorizontalContentAlignment="Left"></Label>
+                            
+                            <Label Grid.Column="4" Grid.Row="1" Content="State:"  HorizontalContentAlignment="Right" BorderBrush="Black" BorderThickness="0 0 0 1"></Label>
+                            <Label Grid.Column="5" Grid.Row="2" Content="{Binding StateR}" BorderBrush="Black" BorderThickness="0 0 1 1" HorizontalContentAlignment="Left"></Label>
+
+                            <Button Content="Change" Grid.Column="6" Grid.RowSpan="2" Height="30" Margin="10 0 0 0" CommandParameter="{Binding IdR}" Command="{Binding Change}"></Button>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>

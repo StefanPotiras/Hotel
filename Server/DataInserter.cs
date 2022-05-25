@@ -188,7 +188,7 @@ namespace Server
                             Rooms = new List<Room>
                             {
                                 _context.Rooms.SingleOrDefault ( r => r.RoomNo == 1),
-                                _context.Rooms.SingleOrDefault ( r => r.RoomNo == 2),
+                                //_context.Rooms.SingleOrDefault ( r => r.RoomNo == 2),
                             },
                             State = ReservationState.Active
                         }

@@ -44,9 +44,9 @@
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Horizontal" Grid.Column="0" >
-                            <Image Margin="3" Source="{Binding ImagesRoom[0]}" Height="100" Width="100"/>
-                            <TextBlock Margin="3" Text="{Binding RoomTitleR}" FontSize="30"/>
+                        <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image Margin="3" Source="{Binding ImagesRoom[0]}" Height="150" Width="150"/>
+                            <TextBlock  Text="{Binding RoomTitleR}" FontSize="30" />
 
                         </StackPanel>
                         <Grid Grid.Column="1" >
@@ -62,10 +62,11 @@
                             </StackPanel>
                             <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Grid.Row="1"  Margin="200 0 0 0">
                                 <TextBlock  Text="Pret/noapte:" FontSize="30"></TextBlock>
-                                <TextBlock     Text="{Binding PriceR}" FontSize="30"></TextBlock>
+                                <TextBlock  Text="{Binding PriceR}" FontSize="30"></TextBlock>
                             </StackPanel>
-                            <Button Content="Delete" Command="{Binding DeleteRoom}" Grid.Row="2" Width="60" CommandParameter="{Binding IDR}" Visibility="{Binding VisibilityAdmin, Converter={StaticResource BoolToVisibilityConverter}}"></Button>
-                            <Button Content="Modify" Command="{Binding ModifyRoom}" Grid.Row="2" Width="60" Margin="350 0 0 0" CommandParameter="{Binding IDR}"  Visibility="{Binding VisibilityAdmin, Converter={StaticResource BoolToVisibilityConverter}}"></Button>
+                            <Button Grid.Row="2" Content="Add" Margin="200 0 0 0"  Width="60" Height="40" Command="{Binding AddRoomInReserv }" CommandParameter="{Binding IDR}" Visibility="{Binding VisibilityClient, Converter={StaticResource BoolToVisibilityConverter}}"></Button>
+                            <Button Content="Delete" Command="{Binding DeleteRoom}" Grid.Row="2" Width="60" Height="40" CommandParameter="{Binding IDR}" Visibility="{Binding VisibilityAdmin, Converter={StaticResource BoolToVisibilityConverter}}"></Button>
+                            <Button Content="Modify" Command="{Binding ModifyRoom}" Grid.Row="2" Width="60" Height="40" Margin="350 0 0 0" CommandParameter="{Binding IDR}"  Visibility="{Binding VisibilityAdmin, Converter={StaticResource BoolToVisibilityConverter}}"></Button>
                         </Grid>
                     </Grid>
 
@@ -76,5 +77,7 @@
         <Button Grid.Row="3" Width="400" Height="50" FontSize="25" Visibility="{Binding Visibility, Converter={StaticResource BoolToVisibilityConverter}}" Command="{Binding ReservationsTabel}">See reservations</Button>
         <Button Grid.Row="3" Width="200" Height="50" FontSize="25" Margin="0 0 800 0"  Command="{Binding AddRoom}"  Visibility="{Binding VisibilityAdmin, Converter={StaticResource BoolToVisibilityConverter}}">Add Room</Button>
         <Button Grid.Row="3" Width="200" Height="50" FontSize="25" Margin="800 0 0 0"  Command="{Binding AddServices}"  Visibility="{Binding VisibilityAdmin, Converter={StaticResource BoolToVisibilityConverter}}">Add Services</Button>
+        <Button Grid.Row="3" Width="200" Height="50" FontSize="25" Margin="0 0 800 0"  Command="{Binding SeeRoomReserv}"  Visibility="{Binding VisibilityClient, Converter={StaticResource BoolToVisibilityConverter}}">See Rooms</Button>
+        <Label Grid.Row="3" Width="200" Height="50" FontSize="25" Margin="800 0 0 0"   Visibility="{Binding VisibilityClient, Converter={StaticResource BoolToVisibilityConverter}}">NrRooms:</Label>
     </Grid>
 </Window>

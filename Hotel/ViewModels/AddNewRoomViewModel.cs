@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 
 namespace Hotel.ViewModels
 {
-    class AddNewRoomViewModel : NotifyViewModel
+    public class AddNewRoomViewModel : NotifyViewModel
     {
         TypeRoomsModelBinding typeRoomsModelBinding = new TypeRoomsModelBinding();
         public AddNewRoomViewModel() { }
@@ -44,6 +44,15 @@ namespace Hotel.ViewModels
                         Bucatarie = true;
                 }
                 ImageNumber = typeRoomsModelBinding.Images.Count;
+                int i = 0;
+                foreach (var index in typeRoomsModelBinding.allImages)
+                {
+                    Images tempImg = new Images();
+                    tempImg.images = index;
+                    tempImg.idImage = i;
+                    imagesSource.Add(tempImg);
+                    i++;
+                }
             }
 
 
@@ -58,24 +67,40 @@ namespace Hotel.ViewModels
         public bool balcon;
         public bool masinaDeSpalat;
         public bool bucatarie;
-        public ObservableCollection<ObservableCollection<byte>> matrixImages = new ObservableCollection<ObservableCollection<byte>>();
         public ObservableCollection<Image> vectorImg = new ObservableCollection<Image>();
+        public ObservableCollection<Images> imagesSource = new ObservableCollection<Images>();
+
+
         string imgTemp;
         public string ImgTemp
         {
-
             get
             {
                 return imgTemp;
             }
             set
             {
-
                 imgTemp = value;
                 string test = imgTemp.Remove(0, 8);
                 vectorImg.Add(Image.FromFile(test));
                 ImageNumber++;
-                NotifyPropertyChanged("imgTemp");
+                imagesSource.Add(new Images { images = new BitmapImage(new Uri(test, UriKind.Absolute)), idImage = ImageNumber });
+
+                NotifyPropertyChanged("ImgTemp");
+            }
+        }
+        public ObservableCollection<Images> ImagesSource
+        {
+
+            get
+            {
+                return imagesSource;
+            }
+            set
+            {
+
+                imagesSource = value;
+                NotifyPropertyChanged("ImagesSource");
             }
 
 
@@ -109,12 +134,16 @@ namespace Hotel.ViewModels
             if (vectorImg.Count > 0)
             {
                 vectorImg.RemoveAt(vectorImg.Count - 1);
+                ImagesSource.RemoveAt(ImagesSource.Count - 1);
+                NotifyPropertyChanged("ImagesSource");
                 ImageNumber--;
             }
             else
             if (typeRoomsModelBinding.Images.Count > 0)
             {
-                typeRoomsModelBinding.Images.RemoveAt(vectorImg.Count - 1);
+                typeRoomsModelBinding.Images.RemoveAt(typeRoomsModelBinding.Images.Count - 1);
+                ImagesSource.RemoveAt(ImagesSource.Count - 1);
+                NotifyPropertyChanged("ImagesSource");
                 ImageNumber--;
             }
         }
@@ -166,7 +195,8 @@ namespace Hotel.ViewModels
                 }
             }
             UnauthorizedClientModel firstPage = new UnauthorizedClientModel();
-            UnauthorizedClient firstPageModel = new UnauthorizedClient(UserModel.UserType.Admin);
+            ObservableCollection<TypeRoomsModelBinding> curentRooms2 = new ObservableCollection<TypeRoomsModelBinding>();
+            UnauthorizedClient firstPageModel = new UnauthorizedClient(UserModel.UserType.Admin, curentRooms2);
             firstPage.DataContext = firstPageModel;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = firstPage;
@@ -182,7 +212,7 @@ namespace Hotel.ViewModels
             set
             {
                 imageNumber = value;
-                NotifyPropertyChanged("imageNumber");
+                NotifyPropertyChanged("ImageNumber");
             }
 
         }
@@ -195,7 +225,7 @@ namespace Hotel.ViewModels
             set
             {
                 priceTextBox = value;
-                NotifyPropertyChanged("priceTextBox");
+                NotifyPropertyChanged("PriceTextBox");
             }
         }
 
@@ -208,7 +238,7 @@ namespace Hotel.ViewModels
             set
             {
                 descriptionTextBox = value;
-                NotifyPropertyChanged("descriptionTextBox");
+                NotifyPropertyChanged("DescriptionTextBox");
             }
         }
 
@@ -222,7 +252,7 @@ namespace Hotel.ViewModels
             set
             {
                 capacityTextBox = value;
-                NotifyPropertyChanged("SelectedType");
+                NotifyPropertyChanged("CapacityTextBox");
             }
         }
         public string SelectedType

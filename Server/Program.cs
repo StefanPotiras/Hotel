@@ -15,7 +15,7 @@ namespace Server
         static void Main(string[] args)
         {
             var options = new DbContextOptionsBuilder<HotelContext>()
-                .UseSqlServer(@"Server=DESKTOP-6GD6S01\SQLEXPRESS;Database=Hotel;Trusted_Connection=True;")
+                .UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=Hotel;Trusted_Connection=True;")
                 .Options;
 
             using (var db = new HotelContext(options))
@@ -30,7 +30,7 @@ namespace Server
                 dataInserter.InsertUsers();
             }
 
-            Request request = new Request(@"Server=DESKTOP-6GD6S01\SQLEXPRESS;Database=Hotel;Trusted_Connection=True;");
+            Request request = new Request(@"Server=localhost\SQLEXPRESS;Database=Hotel;Trusted_Connection=True;");
             Console.WriteLine(request.NrOfAvailableRooms(1, new DateTime(2023, 01, 01), new DateTime(2023, 01, 02)));
             Console.WriteLine(request.NrOfAvailableRooms(2, new DateTime(2023, 01, 01), new DateTime(2023, 01, 02)));
             Console.WriteLine(request.NrOfAvailableRooms(2, new DateTime(2022, 05, 24), new DateTime(2022, 06, 25)));

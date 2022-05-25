@@ -48,5 +48,21 @@ namespace Hotel.Helps
             }
             return tempArray;
         }
+
+        public static void setTrue(ref ObservableCollection<TypeRoomsModelBinding> typeRoomsModelBindings)
+        {
+            foreach( var  index in typeRoomsModelBindings)
+            {
+                index.visibilityAdmin = true;
+            }
+        }
+
+        public static void setTrue2(ref ObservableCollection<TypeRoomsModelBinding> typeRoomsModelBindings)
+        {
+            foreach (var index in typeRoomsModelBindings)
+            {
+                index.visibilityClient = true;
+            }
+        }
     }
 }

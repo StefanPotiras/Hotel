@@ -11,5 +11,6 @@ namespace ModelsClasses
     {
         public int RoomTypeId { get; set; }
         public ObservableCollection<int> RoomNumbers { get; set; }
+        public int NumberOfTypeRooms { get; set; }
     }
 }

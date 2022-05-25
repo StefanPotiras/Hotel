@@ -6,62 +6,73 @@
         xmlns:local="clr-namespace:Hotel.Views"
         xmlns:ctx="clr-namespace:Hotel.ViewModels"
         mc:Ignorable="d"
-        Title="AddNewRoomView" Height="1200" Width="800">
+        Title="AddNewRoomView" Height="800" Width="800">
     <Window.DataContext>
         <ctx:AddNewRoomViewModel/>
     </Window.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-    <Grid >
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="300"></RowDefinition>
-            <RowDefinition Height="150"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="300"></RowDefinition>
+                <RowDefinition Height="150"></RowDefinition>
+                <RowDefinition Height="300"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
             <Image Name="imgPhoto" Visibility="Hidden" Source="{Binding ImgTemp,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                    Width="1"
                    Height="1"></Image>
-        <Button Width="100" Height="30" Margin="0 -40 650 0" Command="{Binding Back}">Back</Button>
-        <Label Margin="190 0 0 0" FontSize="30" Content="NumberOfRooms"></Label>
-        <TextBox FontSize="30" BorderThickness="2" Width="400" Height="50" Margin="0 40 0 0" Text="{Binding RoomNumberTextBox, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-        <Label Margin="190 0 0 0" FontSize="30" Grid.Row="1" Content="Price"></Label>
-        <TextBox FontSize="30" BorderThickness="2" Width="400" Height="50" Grid.Row="1"  Margin="0 40 0 0" Text="{Binding PriceTextBox, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Button Width="100" Height="30" Margin="0 -40 650 0" Command="{Binding Back}">Back</Button>
+            <Label Margin="190 0 0 0" FontSize="30" Content="NumberOfRooms"></Label>
+            <TextBox FontSize="30" BorderThickness="2" Width="400" Height="50" Margin="0 40 0 0" Text="{Binding RoomNumberTextBox, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Margin="190 0 0 0" FontSize="30" Grid.Row="1" Content="Price"></Label>
+            <TextBox FontSize="30" BorderThickness="2" Width="400" Height="50" Grid.Row="1"  Margin="0 40 0 0" Text="{Binding PriceTextBox, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-        <Label Margin="190 0 0 0" FontSize="30" Grid.Row="2" Content="Description"></Label>
-        <TextBox FontSize="30" BorderThickness="2" Width="400" Height="50" Grid.Row="2"  Margin="0 40 0 0" Text="{Binding DescriptionTextBox, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-        <Label Margin="190 0 0 0" FontSize="30" Grid.Row="3" Content="Capacity"></Label>
-        <TextBox FontSize="30" BorderThickness="2" Width="400" Height="50" Grid.Row="3"  Margin="0 40 0 0" Text="{Binding CapacityTextBox, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-        <Label Margin="190 0 0 0" FontSize="30" Grid.Row="4" Content="Room Type"></Label>
-        <ComboBox Width="400" Height="50" Grid.Row="4" FontSize="30"  Margin="0 40 0 0" Text="{Binding SelectedType}">
-            <ComboBoxItem>KingSize</ComboBoxItem>
-            <ComboBoxItem IsSelected="True">SingleRoom</ComboBoxItem>
-            <ComboBoxItem>DoubleRoom</ComboBoxItem>
-            <ComboBoxItem>Quad Room</ComboBoxItem>
-            <ComboBoxItem>Studio Room</ComboBoxItem>
-        </ComboBox>
-        <Label Margin="0 0 0 0" FontSize="30" Grid.Row="5" Content="Room Features" HorizontalAlignment="Center"></Label>
-        <StackPanel Grid.Row="5" Width="230" Height="200" HorizontalAlignment="center">
-            <CheckBox Content="Gratar" FontSize="25" IsChecked="{Binding Gratar}"></CheckBox>
-            <CheckBox Content="Foisor" FontSize="25" IsChecked="{Binding Foisor}"></CheckBox>
-            <CheckBox Content="Balcon" FontSize="25" IsChecked="{Binding Balcon}"></CheckBox>
-            <CheckBox Content="Masina de Spalat" FontSize="25" IsChecked="{Binding MasinaDeSpalat}"></CheckBox>
-            <CheckBox Content="Bucatarie" FontSize="25" IsChecked="{Binding Bucatarie}"></CheckBox>
-        </StackPanel>
-        <StackPanel  Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Label FontSize="30">Number of Images:</Label>
+            <Label Margin="190 0 0 0" FontSize="30" Grid.Row="2" Content="Description"></Label>
+            <TextBox FontSize="30" BorderThickness="2" Width="400" Height="50" Grid.Row="2"  Margin="0 40 0 0" Text="{Binding DescriptionTextBox, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Margin="190 0 0 0" FontSize="30" Grid.Row="3" Content="Capacity"></Label>
+            <TextBox FontSize="30" BorderThickness="2" Width="400" Height="50" Grid.Row="3"  Margin="0 40 0 0" Text="{Binding CapacityTextBox, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Margin="190 0 0 0" FontSize="30" Grid.Row="4" Content="Room Type"></Label>
+            <ComboBox Width="400" Height="50" Grid.Row="4" FontSize="30"  Margin="0 40 0 0" Text="{Binding SelectedType}">
+                <ComboBoxItem>KingSize</ComboBoxItem>
+                <ComboBoxItem IsSelected="True">SingleRoom</ComboBoxItem>
+                <ComboBoxItem>DoubleRoom</ComboBoxItem>
+                <ComboBoxItem>Quad Room</ComboBoxItem>
+                <ComboBoxItem>Studio Room</ComboBoxItem>
+            </ComboBox>
+            <Label Margin="0 0 0 0" FontSize="30" Grid.Row="5" Content="Room Features" HorizontalAlignment="Center"></Label>
+            <StackPanel Grid.Row="5" Width="230" Height="200" HorizontalAlignment="center">
+                <CheckBox Content="Gratar" FontSize="25" IsChecked="{Binding Gratar}"></CheckBox>
+                <CheckBox Content="Foisor" FontSize="25" IsChecked="{Binding Foisor}"></CheckBox>
+                <CheckBox Content="Balcon" FontSize="25" IsChecked="{Binding Balcon}"></CheckBox>
+                <CheckBox Content="Masina de Spalat" FontSize="25" IsChecked="{Binding MasinaDeSpalat}"></CheckBox>
+                <CheckBox Content="Bucatarie" FontSize="25" IsChecked="{Binding Bucatarie}"></CheckBox>
+            </StackPanel>
+            <StackPanel  Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label FontSize="30">Number of Images:</Label>
                 <Label FontSize="30" Content="{Binding ImageNumber ,UpdateSourceTrigger=PropertyChanged}"></Label>
-        </StackPanel>
-        <StackPanel Grid.Row="6" Margin="0 60 0 0" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Add Images" Grid.Row="6" Width="200"
+            </StackPanel>
+            <StackPanel Grid.Row="6" Margin="0 60 0 0" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Add Images" Grid.Row="6" Width="200"
                  Height="50" Click="Button_Click"  ></Button>
-            <Button Content="Remove Last" Grid.Row="6" Width="200" Margin="40 0 0 0"
+                <Button Content="Remove Last" Grid.Row="6" Width="200" Margin="40 0 0 0"
                  Height="50" Command="{Binding RemoveLast}"></Button>
-        </StackPanel>
-            <Button Content="Add Room" Grid.Row="7" Width="400" FontSize="30" Height="50" Margin="0 0 0 20" Command="{Binding AddRoom}"></Button>
-    </Grid>
-        </ScrollViewer>
+            </StackPanel>
+            <Button Content="Add Room" Grid.Row="8" Width="400" FontSize="30" Height="50" Margin="0 0 0 20" Command="{Binding AddRoom}"></Button>
+            <ListBox Grid.Row="7" x:Name="listBox" Width="300" Margin="40,0,40,0"  AllowDrop="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding ImagesSource,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedImage}" >
+            <ListBox.ItemTemplate >
+                <DataTemplate>
+                        <StackPanel Orientation="Horizontal"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" >
+                            <Image Height="150" Width="250" Source="{Binding ImagesList,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></Image>
+                        </StackPanel>
+                    </DataTemplate>
+            </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </ScrollViewer>
 </Window>

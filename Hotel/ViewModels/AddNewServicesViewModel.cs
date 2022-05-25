@@ -99,6 +99,7 @@ namespace Hotel.ViewModels
                 servicesModel.Price = Decimal.Parse(priceTextBox);
                 using Request register = new Request(@"Server = localhost\SQLEXPRESS; Database = Hotel; Trusted_Connection = True; ");
                 register.AddService(servicesModel);
+             
                 UnauthorizedClientModel firstPage = new UnauthorizedClientModel();
                 UnauthorizedClient firstPageModel = new UnauthorizedClient(UserModel.UserType.Admin);
                 firstPage.DataContext = firstPageModel;

@@ -12,7 +12,7 @@ namespace ModelsClasses
 {
     public class ReservationModel
     {
-
+        public int IdReserv { get; set; }
         public int UserId { get; set; }
         public string Username { get; set; }
         public decimal Price { get; set; }
