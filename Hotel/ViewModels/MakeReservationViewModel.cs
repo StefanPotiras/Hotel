@@ -33,7 +33,27 @@ namespace Hotel.ViewModels
                     totalRooms = totalRooms + index.NumberOfTypeRooms - 1;
             }
         }
-
+        private ICommand BackCommand;
+        public ICommand Back
+        {
+            get
+            {
+                if (BackCommand == null)
+                {
+                    BackCommand = new RelayCommands(BackFunction);
+                }
+                return BackCommand;
+            }
+        }
+        public void BackFunction(object param)
+        {
+            UnauthorizedClientModel firstPage = new UnauthorizedClientModel();
+            UnauthorizedClient firstPageModel = new UnauthorizedClient();
+            firstPage.DataContext = firstPageModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = firstPage;
+            firstPage.Show();
+        }
 
         public ICommand SendCommand;
         public ICommand Send
