@@ -128,6 +128,30 @@ namespace Hotel.ViewModels
             }
            
         }
+        //SeeRoomReserv
+
+        public ICommand SeeRoomReservCommand;
+        public ICommand SeeRoomReserv
+        {
+            get
+            {
+                if (SeeRoomReservCommand == null)
+                {
+                    SeeRoomReservCommand = new RelayCommands(ReservCommandFc);
+                }
+                return SeeRoomReservCommand;
+            }
+        }
+        public void ReservCommandFc(object param)
+        {
+            MakeRevervationView firstPage = new MakeRevervationView();
+            MakeReservationViewModel firstPageModel = new MakeReservationViewModel(reservationModel, reservationModel.Username);
+            firstPage.DataContext = firstPageModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = firstPage;
+            firstPage.Show();
+
+        }
         public ICommand AddReservCommand;
         public ICommand AddReserv
         {
@@ -252,12 +276,24 @@ namespace Hotel.ViewModels
                 NotifyPropertyChanged("SelectedRoom");
                 if (selectedRoom != null)
                 {
-                    DetaliiCamera detailRoom = new DetaliiCamera();
-                    DetailRoomViewModel loginVM = new DetailRoomViewModel(SelectedRoom);
-                    detailRoom.DataContext = loginVM;
-                    App.Current.MainWindow.Close();
-                    App.Current.MainWindow = detailRoom;
-                    detailRoom.Show();
+                    if (funct == UserModel.UserType.Customer)
+                    {
+                        DetaliiCamera detailRoom = new DetaliiCamera();
+                        DetailRoomViewModel loginVM = new DetailRoomViewModel(SelectedRoom, funct, reservationModel.Username);
+                        detailRoom.DataContext = loginVM;
+                        App.Current.MainWindow.Close();
+                        App.Current.MainWindow = detailRoom;
+                        detailRoom.Show();
+                    }
+                    else
+                    {
+                        DetaliiCamera detailRoom = new DetaliiCamera();
+                        DetailRoomViewModel loginVM = new DetailRoomViewModel(SelectedRoom, funct);
+                        detailRoom.DataContext = loginVM;
+                        App.Current.MainWindow.Close();
+                        App.Current.MainWindow = detailRoom;
+                        detailRoom.Show();
+                    }
                 }
             }
         }

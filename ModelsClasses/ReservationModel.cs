@@ -20,7 +20,7 @@ namespace ModelsClasses
         public DateTime EndDate { get; set; }
         public ReservationState State { get; set; }
         public int NumberOfRooms { get; set; }
-        public ObservableCollection<ServicesModel> Services { get; set; }
+        public ObservableCollection<ServicesModel> Services = new ObservableCollection<ServicesModel>();
         public ObservableCollection<RoomTypeNumberModel> AllRoomsWithType =  new ObservableCollection<RoomTypeNumberModel>();
 
 

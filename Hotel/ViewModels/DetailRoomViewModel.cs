@@ -18,8 +18,12 @@ namespace Hotel.ViewModel
         public DetailRoomViewModel()
         { }
         TypeRoomsModelBinding typeRoomsModelBinding = new TypeRoomsModelBinding();
-        public DetailRoomViewModel(TypeRoomsModelBinding typeRoomsModelBinding)
+        UserModel.UserType userType;
+        string username;
+        public DetailRoomViewModel(TypeRoomsModelBinding typeRoomsModelBinding, UserModel.UserType user,string username="")
         {
+            this.username = username;
+            userType = user;
            this.typeRoomsModelBinding = typeRoomsModelBinding;
             string descFinal="";
             foreach(var index in typeRoomsModelBinding.Features)
@@ -221,7 +225,7 @@ namespace Hotel.ViewModel
         public void BackFunction(object param)
         {
             UnauthorizedClientModel firstPage = new UnauthorizedClientModel();
-            UnauthorizedClient firstPageModel = new UnauthorizedClient(UserModel.UserType.Admin);
+            UnauthorizedClient firstPageModel = new UnauthorizedClient(userType,username:username);
             firstPage.DataContext = firstPageModel;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = firstPage;

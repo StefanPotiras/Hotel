@@ -4,14 +4,35 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Hotel.Views"
+          xmlns:ctx="clr-namespace:Hotel.ViewModels"
         mc:Ignorable="d"
         Title="MakeRevervationView" Height="450" Width="800">
+    <Window.DataContext>
+        <ctx:MakeReservationViewModel/>
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
+            <RowDefinition Height="300"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Label Content="Total Rooms"></Label>
-        <Label Content="Price" Grid.Row="2"></Label>
+        <Label Content="Total Rooms:"></Label>
+        <Label Margin="70 0 0 0" Content="{Binding TotalRooms,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></Label>
+        <Label Margin="0 20 0 0 " Content="Price:" Grid.Row="0"></Label>
+        <Label Margin="70 20 0 0 " Content="{Binding PriceT,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0"></Label>
+        <ListBox Grid.Row="1" x:Name="listBox" Width="300" Margin="40,0,40,0"  AllowDrop="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding ServicesDataBindings,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedImage}" >
+            <ListBox.ItemTemplate >
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" >
+                        <CheckBox Content="{Binding NameR,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsChecked="{Binding CheckBool,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+                        <Label Margin="60 0 0 20 "  Content="Price:"></Label>
+                        <Label Margin="0 0 0 0" Content="{Binding PriceR,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></Label>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button Grid.Row="2" Width="200" Height="40" Content="Send" Margin="300 0 0 0" Command="{Binding Send}"></Button>
+        <Button Grid.Row="2" Width="200" Height="40" Content="Drop" Margin="0 0 300 0" Command="{Binding Drop}"></Button>
     </Grid>
 </Window>

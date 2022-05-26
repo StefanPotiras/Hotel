@@ -391,7 +391,7 @@ namespace Server
             {
                 StartDate = reservationModel.StartDate,
                 EndDate = reservationModel.EndDate,
-                Customer = _context.Find<Customer>(reservationModel.UserId),
+                Customer = _context.Find<Customer>(reservationModel.Username),
                 Rooms = rooms,
                 ExtraServices = Convertor.EnumToCol(
                     reservationModel.Services.Select(serviceModel => new ExtraService { Id = serviceModel.Id })),

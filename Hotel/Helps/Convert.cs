@@ -49,6 +49,21 @@ namespace Hotel.Helps
             }
             return tempArray;
         }
+        public static ObservableCollection<ServicesDataBinding> returnVector3(ObservableCollection<ServicesModel> temp)
+        {
+            ObservableCollection<ServicesDataBinding> tempArray = new ObservableCollection<ServicesDataBinding>();
+            foreach (var index in temp)
+            {
+                ServicesDataBinding variab = new ServicesDataBinding();
+                variab.Price = index.Price;
+                variab.Id = index.Id;
+                variab.Name = index.Name;
+               
+            
+                tempArray.Add(variab);
+            }
+            return tempArray;
+        }
 
         public static void setTrue(ref ObservableCollection<TypeRoomsModelBinding> typeRoomsModelBindings)
         {
