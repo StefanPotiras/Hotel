@@ -38,7 +38,7 @@ namespace Server
             //var x =request.GetReservationsForCustomer(1);
 
             // request.UpdateReservationStatus(1, ModelsClasses.ReservationState.Canceled);
-            request.UpdateRoomType(new ModelsClasses.RoomTypeModel { NumberOfRooms = 5, Id = 1 });
+            //request.UpdateRoomType(new ModelsClasses.RoomTypeModel { NumberOfRooms = 5, Id = 1 });
         }
     }
 }

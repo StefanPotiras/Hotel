@@ -19,8 +19,8 @@ namespace Server.Entities
         public int Capacity { get; set; }
 
         public ICollection<RoomPrice> Prices { get; set; }
-        public ICollection <Room> Rooms { get; set; }
-        public ICollection <Feature> Features { get; set; }
+        public ICollection<Room> Rooms { get; set; }
+        public ICollection<Feature> Features { get; set; }
         public ICollection<Image> Images { get; set; }
     }
 

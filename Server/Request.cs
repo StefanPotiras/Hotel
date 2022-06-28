@@ -141,7 +141,7 @@ namespace Server
                     Description = roomTypeDb.Description,
                     Id = roomTypeDb.Id,
                     RoomTitle = roomTypeDb.RoomTitle,
-                    NumberOfRooms = roomTypeDb.Rooms.Count,
+                    NumberOfRooms = roomTypeDb.Rooms.Where(r=>!r.Deleted).Count(),
                     Features = featureModels,
                     Images = imageModels,
                     Price = currentPrice != null ? currentPrice.Price : roomTypeDb.BasePrice
@@ -322,6 +322,9 @@ namespace Server
             Console.WriteLine(filteredRooms is DbSet<Room>);
 
             RoomType updatedRoomType = _context.RoomTypes.SingleOrDefault(rt => rt.Id == roomTypeModel.Id);
+            //var imagesToDelete = _context.Images.Where(img => img.RoomType.Id == updatedRoomType.Id);
+            //_context.Remove(imagesToDelete);
+
 
             updatedRoomType.BasePrice = roomTypeModel.Price;
             updatedRoomType.Capacity = roomTypeModel.Capacity;
